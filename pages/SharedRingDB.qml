@@ -120,7 +120,7 @@ Rectangle {
                     "transactions. Such a list is maintained by the Monero project and is available on the getmonero.org website, " +
                     "and you can import this list here.<br>" +
                     "Alternatively, you can scan the blockchain (and the blockchain of key-reusing Monero clones) yourself " +
-                    "using the monero-blockchain-blackball tool to create a list of known spent outputs.<br>"
+                    "using the pyrexcoin-blockchain-blackball tool to create a list of known spent outputs.<br>"
                 )
                 sharedRingDBDialog.icon = StandardIcon.Information
                 sharedRingDBDialog.open()

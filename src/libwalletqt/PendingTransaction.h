@@ -25,16 +25,16 @@ class PendingTransaction : public QObject
 
 public:
     enum Status {
-        Status_Ok       = Monero::PendingTransaction::Status_Ok,
-        Status_Error    = Monero::PendingTransaction::Status_Error,
-        Status_Critical    = Monero::PendingTransaction::Status_Critical
+        Status_Ok       = Pyrexcoin::PendingTransaction::Status_Ok,
+        Status_Error    = Pyrexcoin::PendingTransaction::Status_Error,
+        Status_Critical    = Pyrexcoin::PendingTransaction::Status_Critical
     };
     Q_ENUM(Status)
 
     enum Priority {
-        Priority_Low    = Monero::PendingTransaction::Priority_Low,
-        Priority_Medium = Monero::PendingTransaction::Priority_Medium,
-        Priority_High   = Monero::PendingTransaction::Priority_High
+        Priority_Low    = Pyrexcoin::PendingTransaction::Priority_Low,
+        Priority_Medium = Pyrexcoin::PendingTransaction::Priority_Medium,
+        Priority_High   = Pyrexcoin::PendingTransaction::Priority_High
     };
     Q_ENUM(Priority)
 
@@ -51,11 +51,11 @@ public:
     Q_INVOKABLE void setFilename(const QString &fileName);
 
 private:
-    explicit PendingTransaction(Monero::PendingTransaction * pt, QObject *parent = 0);
+    explicit PendingTransaction(Pyrexcoin::PendingTransaction * pt, QObject *parent = 0);
 
 private:
     friend class Wallet;
-    Monero::PendingTransaction * m_pimpl;
+    Pyrexcoin::PendingTransaction * m_pimpl;
     QString m_fileName;
 };
 
