@@ -363,7 +363,7 @@
     </message>
     <message>
         <location filename="../pages/Keys.qml" line="93"/>
-        <source>WARNING: Do not reuse your Monero keys on another fork, UNLESS this fork has key reuse mitigations built in. Doing so will harm your privacy.</source>
+        <source>WARNING: Do not reuse your Pyrexcoin keys on another fork, UNLESS this fork has key reuse mitigations built in. Doing so will harm your privacy.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -620,8 +620,8 @@
     </message>
     <message>
         <location filename="../pages/Mining.qml" line="82"/>
-        <source>Mining with your computer helps strengthen the Monero network. The more that people mine, the harder it is for the network to be attacked, and every little bit helps.&lt;br&gt; &lt;br&gt;Mining also gives you a small chance to earn some Monero. Your computer will create hashes looking for block solutions. If you find a block, you will get the associated reward. Good luck!</source>
-        <translation>挖矿可增进 Monero 网络的安全性, 越多使用者的挖矿活动, Monero 网络就会越难以被攻击. &lt;br&gt; &lt;br&gt;挖矿也让您有机会赚取额外的门罗币, 您的计算机将持续创建哈希值用以寻找区块, 如找到则可以获得该区块所附带的门罗币奖励, 祝您好运！</translation>
+        <source>Mining with your computer helps strengthen the Pyrexcoin network. The more that people mine, the harder it is for the network to be attacked, and every little bit helps.&lt;br&gt; &lt;br&gt;Mining also gives you a small chance to earn some Pyrexcoin. Your computer will create hashes looking for block solutions. If you find a block, you will get the associated reward. Good luck!</source>
+        <translation>挖矿可增进 Pyrexcoin 网络的安全性, 越多使用者的挖矿活动, Pyrexcoin 网络就会越难以被攻击. &lt;br&gt; &lt;br&gt;挖矿也让您有机会赚取额外的门罗币, 您的计算机将持续创建哈希值用以寻找区块, 如找到则可以获得该区块所附带的门罗币奖励, 祝您好运！</translation>
     </message>
     <message>
         <location filename="../pages/Mining.qml" line="95"/>
@@ -849,12 +849,12 @@
     </message>
     <message>
         <location filename="../pages/Receive.qml" line="138"/>
-        <source>With more Monero</source>
+        <source>With more Pyrexcoin</source>
         <translation>更多的门罗币</translation>
     </message>
     <message>
         <location filename="../pages/Receive.qml" line="139"/>
-        <source>With not enough Monero</source>
+        <source>With not enough Pyrexcoin</source>
         <translation>门罗币不足</translation>
     </message>
     <message>
@@ -1184,8 +1184,8 @@
     </message>
     <message>
         <location filename="../pages/Settings.qml" line="645"/>
-        <source>Embedded Monero version: </source>
-        <translation>内嵌Monero版本: </translation>
+        <source>Embedded Pyrexcoin version: </source>
+        <translation>内嵌PyrexCoin版本: </translation>
     </message>
     <message>
         <location filename="../pages/Settings.qml" line="657"/>
@@ -1298,8 +1298,8 @@ The old wallet cache file will be renamed and can be restored later.
     </message>
     <message>
         <location filename="../pages/SharedRingDB.qml" line="97"/>
-        <source>This page allows you to interact with the shared ring database. This database is meant for use by Monero wallets as well as wallets from Monero clones which reuse the Monero keys.</source>
-        <translation>您在本页面可以操作共享的环签名数据库.  Monero 钱包以及复制了 Monero 密钥的克隆钱包都将使用本数据库.</translation>
+        <source>This page allows you to interact with the shared ring database. This database is meant for use by Pyrexcoin wallets as well as wallets from Pyrexcoin clones which reuse the Pyrexcoin keys.</source>
+        <translation>您在本页面可以操作共享的环签名数据库.  Pyrexcoin 钱包以及复制了 Pyrexcoin 密钥的克隆钱包都将使用本数据库.</translation>
     </message>
     <message>
         <location filename="../pages/SharedRingDB.qml" line="110"/>
@@ -1315,8 +1315,8 @@ The old wallet cache file will be renamed and can be restored later.
     </message>
     <message>
         <location filename="../pages/SharedRingDB.qml" line="113"/>
-        <source>In order to obscure which inputs in a Monero transaction are being spent, a third party should not be able to tell which inputs in a ring are already known to be spent. Being able to do so would weaken the protection afforded by ring signatures. If all but one of the inputs are known to be already spent, then the input being actually spent becomes apparent, thereby nullifying the effect of ring signatures, one of the three main layers of privacy protection Monero uses.&lt;br&gt;To help transactions avoid those inputs, a list of known spent ones can be used to avoid using them in new transactions. Such a list is maintained by the Monero project and is available on the getmonero.org website, and you can import this list here.&lt;br&gt;Alternatively, you can scan the blockchain (and the blockchain of key-reusing Monero clones) yourself using the monero-blockchain-blackball tool to create a list of known spent outputs.&lt;br&gt;</source>
-        <translation>为了掩盖Monero交易中任何付款的去向, 第三方不应知道环签名中每个输入和支付的对应关系. 否则就会削弱环签名提供的保护. 如果仅有一个输入之外的所有输入都已知, 那么所有付款的去向将变得透明, 这将使作为Monero三个主要隐私保护层之一的环签名彻底无效.  &lt;br&gt; 为帮助交易中避免出现这些问题, 可以使用已知去向列表来避免在新交易中使用它们.  这个清单由 Monero 项目维护, 可在 getmonero.org 网站上找到, 您可以在此处导入此清单. &lt;br&gt; 或者, 您可以自己扫描区块链 (以及复制了 Monero 密钥的克隆钱包的区块链),  使用monero-blockchain-blackball工具创建已知已用输出的列表. &lt;br&gt;</translation>
+        <source>In order to obscure which inputs in a Pyrexcoin transaction are being spent, a third party should not be able to tell which inputs in a ring are already known to be spent. Being able to do so would weaken the protection afforded by ring signatures. If all but one of the inputs are known to be already spent, then the input being actually spent becomes apparent, thereby nullifying the effect of ring signatures, one of the three main layers of privacy protection Pyrexcoin uses.&lt;br&gt;To help transactions avoid those inputs, a list of known spent ones can be used to avoid using them in new transactions. Such a list is maintained by the Pyrexcoin project and is available on the getmonero.org website, and you can import this list here.&lt;br&gt;Alternatively, you can scan the blockchain (and the blockchain of key-reusing Pyrexcoin clones) yourself using the pyrexcoin-blockchain-blackball tool to create a list of known spent outputs.&lt;br&gt;</source>
+        <translation>为了掩盖PyrexCoin交易中任何付款的去向, 第三方不应知道环签名中每个输入和支付的对应关系. 否则就会削弱环签名提供的保护. 如果仅有一个输入之外的所有输入都已知, 那么所有付款的去向将变得透明, 这将使作为PyrexCoin三个主要隐私保护层之一的环签名彻底无效.  &lt;br&gt; 为帮助交易中避免出现这些问题, 可以使用已知去向列表来避免在新交易中使用它们.  这个清单由 Pyrexcoin 项目维护, 可在 getmonero.org 网站上找到, 您可以在此处导入此清单. &lt;br&gt; 或者, 您可以自己扫描区块链 (以及复制了 Pyrexcoin 密钥的克隆钱包的区块链),  使用monero-blockchain-blackball工具创建已知已用输出的列表. &lt;br&gt;</translation>
     </message>
     <message>
         <location filename="../pages/SharedRingDB.qml" line="134"/>
@@ -1381,17 +1381,17 @@ The old wallet cache file will be renamed and can be restored later.
     </message>
     <message>
         <location filename="../pages/SharedRingDB.qml" line="245"/>
-        <source>In order to avoid nullifying the protection afforded by Monero&apos;s ring signatures, an output should not be spent with different rings on different blockchains. While this is normally not a concern, it can become one when a key-reusing Monero clone allows you to spend existing outputs. In this case, you need to ensure this existing outputs uses the same ring on both chains.&lt;br&gt;This will be done automatically by Monero and any key-reusing software which is not trying to actively strip you of your privacy.&lt;br&gt;If you are using a key-reusing Monero clone too, and this clone does not include this protection, you can still ensure your transactions are protected by spending on the clone first, then manually adding the ring on this page, which allows you to then spend your Monero safely.&lt;br&gt;If you do not use a key-reusing Monero clone without these safety features, then you do not need to do anything as it is all automated.&lt;br&gt;</source>
+        <source>In order to avoid nullifying the protection afforded by Pyrexcoin&apos;s ring signatures, an output should not be spent with different rings on different blockchains. While this is normally not a concern, it can become one when a key-reusing Pyrexcoin clone allows you to spend existing outputs. In this case, you need to ensure this existing outputs uses the same ring on both chains.&lt;br&gt;This will be done automatically by Pyrexcoin and any key-reusing software which is not trying to actively strip you of your privacy.&lt;br&gt;If you are using a key-reusing Pyrexcoin clone too, and this clone does not include this protection, you can still ensure your transactions are protected by spending on the clone first, then manually adding the ring on this page, which allows you to then spend your Pyrexcoin safely.&lt;br&gt;If you do not use a key-reusing Pyrexcoin clone without these safety features, then you do not need to do anything as it is all automated.&lt;br&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>In order to avoid nullifying the protection afforded by Monero&apos;s ring signatures, an output should not be spent with different rings on different blockchains. While this is normally not a concern, it can become one when a key-reusing Monero clone allows you do spend existing outputs. In this case, you need to ensure this existing outputs uses the same ring on both chains.&lt;br&gt;This will be done automatically by Monero and any key-reusing software which is not trying to actively strip you of your privacy.&lt;br&gt;If you are using a key-reusing Monero clone too, and this clone does not include this protection, you can still ensure your transactions are protected by spending on the clone first, then manually adding the ring on this page, which allows you to then spend your Monero safely.&lt;br&gt;If you do not use a key-reusing Monero clone without these safety features, then you do not need to do anything as it is all automated.&lt;br&gt;</source>
-        <translation type="vanished">为了避免Monero环签名提供的保护无效, 同一个输出不应该在不同的区块链上使用不同的环签名来支付.  虽然这通常不是一个问题, 但是当复制了 Monero 密钥的克隆钱包允许您支付到现有输出时, 它可以成为一个问题.  在这种情况下, 您需要确保这些现有输出在两条链上都使用相同的环签名. &lt;br&gt;这将由Monero和任何不想破坏您隐私权的密钥重用软件自动完成.  &lt;br&gt; 如果您同时在使用复制了 Monero 密钥的克隆钱包, 并且不包含这种保护, 您仍然可以通过在它之上新的交易来确保您的交易安全, 然后在此页面上手动添加环签名, 从而使您安全地使用Monero. &lt;br&gt;如果您没有使用无此安全功能的克隆钱包, 那么您不需要做任何事情, 因为所有都是自动的.&lt;br&gt;</translation>
+        <source>In order to avoid nullifying the protection afforded by Pyrexcoin&apos;s ring signatures, an output should not be spent with different rings on different blockchains. While this is normally not a concern, it can become one when a key-reusing Pyrexcoin clone allows you do spend existing outputs. In this case, you need to ensure this existing outputs uses the same ring on both chains.&lt;br&gt;This will be done automatically by Pyrexcoin and any key-reusing software which is not trying to actively strip you of your privacy.&lt;br&gt;If you are using a key-reusing Pyrexcoin clone too, and this clone does not include this protection, you can still ensure your transactions are protected by spending on the clone first, then manually adding the ring on this page, which allows you to then spend your Pyrexcoin safely.&lt;br&gt;If you do not use a key-reusing Pyrexcoin clone without these safety features, then you do not need to do anything as it is all automated.&lt;br&gt;</source>
+        <translation type="vanished">为了避免PyrexCoin环签名提供的保护无效, 同一个输出不应该在不同的区块链上使用不同的环签名来支付.  虽然这通常不是一个问题, 但是当复制了 Pyrexcoin 密钥的克隆钱包允许您支付到现有输出时, 它可以成为一个问题.  在这种情况下, 您需要确保这些现有输出在两条链上都使用相同的环签名. &lt;br&gt;这将由PyrexCoin和任何不想破坏您隐私权的密钥重用软件自动完成.  &lt;br&gt; 如果您同时在使用复制了 Pyrexcoin 密钥的克隆钱包, 并且不包含这种保护, 您仍然可以通过在它之上新的交易来确保您的交易安全, 然后在此页面上手动添加环签名, 从而使您安全地使用PyrexCoin. &lt;br&gt;如果您没有使用无此安全功能的克隆钱包, 那么您不需要做任何事情, 因为所有都是自动的.&lt;br&gt;</translation>
     </message>
     <message>
         <location filename="../pages/SharedRingDB.qml" line="267"/>
-        <source>This records rings used by outputs spent on Monero on a key reusing chain, so that the same ring may be reused to avoid privacy issues.</source>
-        <translation>这个环签名已在密钥重用的Monero链上使用过, 因此重复使用同一个环签名可以避免隐私问题. </translation>
+        <source>This records rings used by outputs spent on Pyrexcoin on a key reusing chain, so that the same ring may be reused to avoid privacy issues.</source>
+        <translation>这个环签名已在密钥重用的PyrexCoin链上使用过, 因此重复使用同一个环签名可以避免隐私问题. </translation>
     </message>
     <message>
         <location filename="../pages/SharedRingDB.qml" line="278"/>
@@ -1845,7 +1845,7 @@ Ringsize: </source>
     </message>
     <message>
         <location filename="../pages/Transfer.qml" line="618"/>
-        <source>Monero sent successfully</source>
+        <source>Pyrexcoin sent successfully</source>
         <translation>成功付款</translation>
     </message>
     <message>
@@ -2085,13 +2085,13 @@ For the case with Spend Proof, you don&apos;t need to specify the recipient addr
     <name>WizardConfigure</name>
     <message>
         <location filename="../wizard/WizardConfigure.qml" line="79"/>
-        <source>We’re almost there - let’s just configure some Monero preferences</source>
-        <translation>就快完成了 - Monero 还需要一点设置</translation>
+        <source>We’re almost there - let’s just configure some Pyrexcoin preferences</source>
+        <translation>就快完成了 - Pyrexcoin 还需要一点设置</translation>
     </message>
     <message>
         <location filename="../wizard/WizardConfigure.qml" line="97"/>
-        <source>Kickstart the Monero blockchain?</source>
-        <translation>开始同步 Monero 区块链?</translation>
+        <source>Kickstart the Pyrexcoin blockchain?</source>
+        <translation>开始同步 Pyrexcoin 区块链?</translation>
     </message>
     <message>
         <location filename="../wizard/WizardConfigure.qml" line="113"/>
@@ -2105,8 +2105,8 @@ For the case with Spend Proof, you don&apos;t need to specify the recipient addr
     </message>
     <message>
         <location filename="../wizard/WizardConfigure.qml" line="140"/>
-        <source>Disk conservation mode uses substantially less disk-space, but the same amount of bandwidth as a regular Monero instance. However, storing the full blockchain is beneficial to the security of the Monero network. If you are on a device with limited disk space, then this option is appropriate for you.</source>
-        <translation>硬盘节约模式能精简区块链的数据而减少硬盘空间的使用量, 但保存完整的区块链能加强 Monero 网络的安全性, 当您需要在容量较小的硬盘上执行, 那么这个功能就很适合您, 此功能对于网络带宽的用量没有影响. </translation>
+        <source>Disk conservation mode uses substantially less disk-space, but the same amount of bandwidth as a regular Pyrexcoin instance. However, storing the full blockchain is beneficial to the security of the Pyrexcoin network. If you are on a device with limited disk space, then this option is appropriate for you.</source>
+        <translation>硬盘节约模式能精简区块链的数据而减少硬盘空间的使用量, 但保存完整的区块链能加强 Pyrexcoin 网络的安全性, 当您需要在容量较小的硬盘上执行, 那么这个功能就很适合您, 此功能对于网络带宽的用量没有影响. </translation>
     </message>
     <message>
         <location filename="../wizard/WizardConfigure.qml" line="153"/>
@@ -2115,8 +2115,8 @@ For the case with Spend Proof, you don&apos;t need to specify the recipient addr
     </message>
     <message>
         <location filename="../wizard/WizardConfigure.qml" line="169"/>
-        <source>Mining secures the Monero network, and also pays a small reward for the work done. This option will let Monero mine when your computer is on mains power and is idle. It will stop mining when you continue working.</source>
-        <translation>启动挖矿功能可让 Monero 的系统网络更加安全, 且在工作完成时获得小额的奖励金. 这个功能只会在计算机插着电源并且闲置时才会自动启动, 当您继续使用计算机后即会停止挖矿. </translation>
+        <source>Mining secures the Pyrexcoin network, and also pays a small reward for the work done. This option will let Pyrexcoin mine when your computer is on mains power and is idle. It will stop mining when you continue working.</source>
+        <translation>启动挖矿功能可让 Pyrexcoin 的系统网络更加安全, 且在工作完成时获得小额的奖励金. 这个功能只会在计算机插着电源并且闲置时才会自动启动, 当您继续使用计算机后即会停止挖矿. </translation>
     </message>
 </context>
 <context>
@@ -2139,8 +2139,8 @@ For the case with Spend Proof, you don&apos;t need to specify the recipient addr
     <name>WizardDaemonSettings</name>
     <message>
         <location filename="../wizard/WizardDaemonSettings.qml" line="114"/>
-        <source>To be able to communicate with the Monero network your wallet needs to be connected to a Monero node. For best privacy it&apos;s recommended to run your own node.                         &lt;br&gt;&lt;br&gt;                         If you don&apos;t have the option to run your own node, there&apos;s an option to connect to a remote node.</source>
-        <translation>为了能与Monero网络进行通讯, 您的钱包需要连接上一个Monero节点. 为了获得最好的隐私, 我们建议您运行一个自己的节点 &lt;br&gt;&lt;br&gt; 如果您无法运行自己的节点, 可以选择连上一个远程的节点. </translation>
+        <source>To be able to communicate with the Pyrexcoin network your wallet needs to be connected to a Pyrexcoin node. For best privacy it&apos;s recommended to run your own node.                         &lt;br&gt;&lt;br&gt;                         If you don&apos;t have the option to run your own node, there&apos;s an option to connect to a remote node.</source>
+        <translation>为了能与PyrexCoin网络进行通讯, 您的钱包需要连接上一个PyrexCoin节点. 为了获得最好的隐私, 我们建议您运行一个自己的节点 &lt;br&gt;&lt;br&gt; 如果您无法运行自己的节点, 可以选择连上一个远程的节点. </translation>
     </message>
     <message>
         <location filename="../wizard/WizardDaemonSettings.qml" line="126"/>
@@ -2172,13 +2172,13 @@ For the case with Spend Proof, you don&apos;t need to specify the recipient addr
     <name>WizardDonation</name>
     <message>
         <location filename="../wizard/WizardDonation.qml" line="93"/>
-        <source>Monero development is solely supported by donations</source>
-        <translation>Monero的开发完全由捐赠所支持</translation>
+        <source>Pyrexcoin development is solely supported by donations</source>
+        <translation>PyrexCoin的开发完全由捐赠所支持</translation>
     </message>
     <message>
         <location filename="../wizard/WizardDonation.qml" line="113"/>
         <source>Enable auto-donations of?</source>
-        <translation>激活自动捐赠给Monero的开发团队?</translation>
+        <translation>激活自动捐赠给PyrexCoin的开发团队?</translation>
     </message>
     <message>
         <location filename="../wizard/WizardDonation.qml" line="151"/>
@@ -2187,8 +2187,8 @@ For the case with Spend Proof, you don&apos;t need to specify the recipient addr
     </message>
     <message>
         <location filename="../wizard/WizardDonation.qml" line="162"/>
-        <source>For every transaction, a small transaction fee is charged. This option lets you add an additional amount, as a percentage of that fee, to your transaction to support Monero development. For instance, a 50% autodonation take a transaction fee of 0.005 XMR and add a 0.0025 XMR to support Monero development.</source>
-        <translation>在每一笔交易中 Monero 系统都会收取小额的手续费, 而这个选项则是让你可以增加额外的金额捐赠 Monero 的开发, 比例以当次交易的手续费为基础计算, 譬如 50% 的自动捐赠意味着如果转账手续费为 0.005XMR时将会额外捐赠 0.0025 XMR 给 Monero 开发团队. </translation>
+        <source>For every transaction, a small transaction fee is charged. This option lets you add an additional amount, as a percentage of that fee, to your transaction to support Pyrexcoin development. For instance, a 50% autodonation take a transaction fee of 0.005 PYX and add a 0.0025 PYX to support Pyrexcoin development.</source>
+        <translation>在每一笔交易中 Pyrexcoin 系统都会收取小额的手续费, 而这个选项则是让你可以增加额外的金额捐赠 Pyrexcoin 的开发, 比例以当次交易的手续费为基础计算, 譬如 50% 的自动捐赠意味着如果转账手续费为 0.005XMR时将会额外捐赠 0.0025 PYX 给 Pyrexcoin 开发团队. </translation>
     </message>
     <message>
         <location filename="../wizard/WizardDonation.qml" line="174"/>
@@ -2197,8 +2197,8 @@ For the case with Spend Proof, you don&apos;t need to specify the recipient addr
     </message>
     <message>
         <location filename="../wizard/WizardDonation.qml" line="190"/>
-        <source>Mining secures the Monero network, and also pays a small reward for the work done. This option will let Monero mine when your computer is on mains power and is idle. It will stop mining when you continue working.</source>
-        <translation>启动挖矿功能可让 Monero 的网络更加安全, 且在工作完成时获得小额的奖励金. 这个功能只会在计算机插着电源并且闲置时才会自动启动, 当您继续使用计算机后即会停止挖矿. </translation>
+        <source>Mining secures the Pyrexcoin network, and also pays a small reward for the work done. This option will let Pyrexcoin mine when your computer is on mains power and is idle. It will stop mining when you continue working.</source>
+        <translation>启动挖矿功能可让 Pyrexcoin 的网络更加安全, 且在工作完成时获得小额的奖励金. 这个功能只会在计算机插着电源并且闲置时才会自动启动, 当您继续使用计算机后即会停止挖矿. </translation>
     </message>
 </context>
 <context>
@@ -2290,8 +2290,8 @@ For the case with Spend Proof, you don&apos;t need to specify the recipient addr
     </message>
     <message>
         <location filename="../wizard/WizardMain.qml" line="367"/>
-        <source>USE MONERO</source>
-        <translation>使用 MONERO</translation>
+        <source>USE PYREXCOIN</source>
+        <translation>使用 PYREXCOIN</translation>
     </message>
     <message>
         <location filename="../wizard/WizardMain.qml" line="380"/>
@@ -2396,8 +2396,8 @@ For the case with Spend Proof, you don&apos;t need to specify the recipient addr
     <name>WizardOptions</name>
     <message>
         <location filename="../wizard/WizardOptions.qml" line="75"/>
-        <source>Welcome to Monero!</source>
-        <translation>欢迎使用 Monero！</translation>
+        <source>Welcome to Pyrexcoin!</source>
+        <translation>欢迎使用 PyrexCoin！</translation>
     </message>
     <message>
         <location filename="../wizard/WizardOptions.qml" line="86"/>
@@ -2471,8 +2471,8 @@ For the case with Spend Proof, you don&apos;t need to specify the recipient addr
     <name>WizardWelcome</name>
     <message>
         <location filename="../wizard/WizardWelcome.qml" line="73"/>
-        <source>Welcome to Monero!</source>
-        <translation>欢迎使用 Monero！</translation>
+        <source>Welcome to Pyrexcoin!</source>
+        <translation>欢迎使用 PyrexCoin！</translation>
     </message>
     <message>
         <location filename="../wizard/WizardWelcome.qml" line="83"/>
@@ -2654,8 +2654,8 @@ Spending address index: </source>
     </message>
     <message>
         <location filename="../main.qml" line="790"/>
-        <source>Monero sent successfully: %1 transaction(s) </source>
-        <translation>Monero转账已成功: %1 个交易</translation>
+        <source>Pyrexcoin sent successfully: %1 transaction(s) </source>
+        <translation>PyrexCoin转账已成功: %1 个交易</translation>
     </message>
     <message>
         <location filename="../main.qml" line="820"/>
@@ -2682,7 +2682,7 @@ Spending address index: </source>
     </message>
     <message>
         <location filename="../main.qml" line="864"/>
-        <source>This address received %1 monero, with %2 confirmation(s).</source>
+        <source>This address received %1 pyrexcoin, with %2 confirmation(s).</source>
         <translation>这个地址接收了 %1 个monero, 并通过 %2 次的确认. </translation>
     </message>
     <message>
@@ -2758,8 +2758,8 @@ Spending address index: </source>
     </message>
     <message>
         <location filename="../main.qml" line="1785"/>
-        <source>New version of monero-wallet-gui is available: %1&lt;br&gt;%2</source>
-        <translation>有可用的新版本 Monero 钱包:  %1&lt;br&gt;%2</translation>
+        <source>New version of pyrexcoin-wallet-gui is available: %1&lt;br&gt;%2</source>
+        <translation>有可用的新版本 Pyrexcoin 钱包:  %1&lt;br&gt;%2</translation>
     </message>
     <message>
         <location filename="../main.qml" line="1817"/>
@@ -2800,7 +2800,7 @@ Spending address index: </source>
     </message>
     <message>
         <location filename="../main.qml" line="861"/>
-        <source>This address received %1 monero, but the transaction is not yet mined</source>
+        <source>This address received %1 pyrexcoin, but the transaction is not yet mined</source>
         <translation>这个地址将收到 %1 个monero币, 但这笔交易尚未被矿工确认</translation>
     </message>
     <message>
@@ -2830,8 +2830,8 @@ Spending address index: </source>
     </message>
     <message>
         <location filename="../main.qml" line="1287"/>
-        <source>Monero</source>
-        <translation>Monero</translation>
+        <source>Pyrexcoin</source>
+        <translation>Pyrexcoin</translation>
     </message>
     <message>
         <location filename="../main.qml" line="1443"/>

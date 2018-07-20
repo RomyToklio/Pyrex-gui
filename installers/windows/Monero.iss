@@ -250,7 +250,7 @@ begin
   WizardForm.WizardBitmapImage2.Bitmap.LoadFromFile(ExpandConstant('{tmp}\FinishImage.bmp'));
 
   // Additional wizard page for entering a special blockchain location
-  blockChainDefaultDir := ExpandConstant('{commonappdata}\bitmonero');
+  blockChainDefaultDir := ExpandConstant('{commonappdata}\Pyrexcoin');
   s := 'The default folder to store the Monero blockchain is ' + blockChainDefaultDir;
   s := s + '. As this will need more than 50 GB of free space, you may want to use a folder on a different drive.';
   s := s + ' If yes, specify that folder here.';
@@ -300,7 +300,7 @@ end;
 function DaemonLog(Param: String) : String;
 // Full filename of the log of the daemon
 begin
-  Result := BlockChainDir('') + '\bitmonero.log';
+  Result := BlockChainDir('') + '\Pyrexcoin.log';
   // No quotes for filename with blanks as this is never used as part of a command line
 end;
 
@@ -330,7 +330,7 @@ begin
     // Re-build "pyrexcoin-daemon.bat" according to actual install and blockchain directory used
     SetArrayLength(s, 3);
     s[0] := 'REM Execute the Monero daemon and then stay with window open after it exits';
-    s[1] := '"' + ExpandConstant('{app}\monerod.exe') + '" ' + DaemonFlags('');
+    s[1] := '"' + ExpandConstant('{app}\pyrexcoind.exe') + '" ' + DaemonFlags('');
     s[2] := 'PAUSE';
     SaveStringsToFile(ExpandConstant('{app}\pyrexcoin-daemon.bat'), s, false); 
   end;
@@ -356,7 +356,7 @@ Name: "{group}\Uninstall GUI Wallet"; Filename: "{uninstallexe}"
 ; Sub-folder "Utilities";
 ; Note that Windows 10, unlike Windows 7, ignores such sub-folders completely
 ; and insists on displaying ALL icons on one single level
-Name: "{group}\Utilities\Monero Daemon"; Filename: "{app}\monerod.exe"; Parameters: {code:DaemonFlags}
+Name: "{group}\Utilities\Monero Daemon"; Filename: "{app}\pyrexcoind.exe"; Parameters: {code:DaemonFlags}
 Name: "{group}\Utilities\Read Me"; Filename: "{app}\ReadMe.htm"
 
 ; CLI wallet: Needs a working directory ("Start in:") set in the icon, because with no such directory set
@@ -372,7 +372,7 @@ Name: "{group}\Utilities\x (Check Default Wallet Folder)"; Filename: "{win}\Expl
 Name: "{group}\Utilities\x (Check GUI Wallet Log)"; Filename: "Notepad"; Parameters: "{app}\pyrexcoin-wallet-gui.log"
 Name: "{group}\Utilities\x (Try Daemon, Exit Confirm)"; Filename: "{app}\pyrexcoin-daemon.bat"
 Name: "{group}\Utilities\x (Try GUI Wallet Low Graphics Mode)"; Filename: "{app}\start-low-graphics-mode.bat"
-Name: "{group}\Utilities\x (Try Kill Daemon)"; Filename: "Taskkill.exe"; Parameters: "/IM monerod.exe /T /F"
+Name: "{group}\Utilities\x (Try Kill Daemon)"; Filename: "Taskkill.exe"; Parameters: "/IM pyrexcoind.exe /T /F"
 
 ; Desktop icons, optional with the help of the "Task" section
 Name: "{userdesktop}\GUI Wallet"; Filename: "{app}\pyrexcoin-wallet-gui.exe"; Tasks: desktopicon

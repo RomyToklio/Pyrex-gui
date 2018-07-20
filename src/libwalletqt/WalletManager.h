@@ -9,7 +9,7 @@
 #include "NetworkType.h"
 
 class Wallet;
-namespace Monero {
+namespace Pyrexcoin {
     class WalletManager;
 }
 

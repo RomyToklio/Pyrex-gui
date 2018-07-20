@@ -16,7 +16,7 @@ packagesExist(libpcsclite) {
 QMAKE_CXXFLAGS += -fPIC -fstack-protector
 QMAKE_LFLAGS += -fstack-protector
 
-# cleaning "auto-generated" bitmonero directory on "make distclean"
+# cleaning "auto-generated" Pyrexcoin directory on "make distclean"
 QMAKE_DISTCLEAN += -r $$WALLET_ROOT
 
 INCLUDEPATH +=  $$WALLET_ROOT/include \

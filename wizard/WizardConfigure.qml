@@ -138,8 +138,8 @@ Item {
                 color: "#4A4646"
                 wrapMode: Text.Wrap
                 text: qsTr("Disk conservation mode uses substantially less disk-space, but the same amount of bandwidth as " +
-                           "a regular Monero instance. However, storing the full blockchain is beneficial to the security " +
-                           "of the Monero network. If you are on a device with limited disk space, then this option is appropriate for you.")
+                           "a regular PyrexCoin instance. However, storing the full blockchain is beneficial to the security " +
+                           "of the PyrexCoin network. If you are on a device with limited disk space, then this option is appropriate for you.")
                         + translationManager.emptyString
             }
         }
@@ -166,8 +166,8 @@ Item {
                 font.pixelSize: 15
                 color: "#4A4646"
                 wrapMode: Text.Wrap
-                text: qsTr("Mining secures the Monero network, and also pays a small reward for the work done. This option " +
-                           "will let Monero mine when your computer is on mains power and is idle. It will stop mining when you continue working.")
+                text: qsTr("Mining secures the PyrexCoin network, and also pays a small reward for the work done. This option " +
+                           "will let PyrexCoin mine when your computer is on mains power and is idle. It will stop mining when you continue working.")
                         + translationManager.emptyString
             }
         }

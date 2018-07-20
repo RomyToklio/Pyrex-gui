@@ -72,7 +72,7 @@ if [[ $platform == *bsd* ]]; then
 fi
 
 # build libwallet
-./get_libwallet_api.sh $BUILD_TYPE
+#./get_libwallet_api.sh $BUILD_TYPE
  
 # build zxcvbn
 if [ "$DISABLE_PASS_STRENGTH_METER" != true ]; then
@@ -93,7 +93,7 @@ fi
 if [ "$platform" == "darwin" ]; then
     BIN_PATH=$BIN_PATH/pyrex-wallet-gui.app/Contents/MacOS/
 elif [ "$platform" == "mingw64" ] || [ "$platform" == "mingw32" ]; then
-    MONEROD_EXEC=monerod.exe
+    MONEROD_EXEC=pyrexcoind.exe
 fi
 
 # force version update

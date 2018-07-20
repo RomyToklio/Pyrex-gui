@@ -5,7 +5,7 @@
 #include <QList>
 #include <QDateTime>
 
-namespace Monero {
+namespace Pyrexcoin {
 class TransactionHistory;
 }
 

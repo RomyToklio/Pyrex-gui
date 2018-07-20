@@ -363,7 +363,7 @@
     </message>
     <message>
         <location filename="../pages/Keys.qml" line="93"/>
-        <source>WARNING: Do not reuse your Monero keys on another fork, UNLESS this fork has key reuse mitigations built in. Doing so will harm your privacy.</source>
+        <source>WARNING: Do not reuse your Pyrexcoin keys on another fork, UNLESS this fork has key reuse mitigations built in. Doing so will harm your privacy.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -620,7 +620,7 @@
     </message>
     <message>
         <location filename="../pages/Mining.qml" line="82"/>
-        <source>Mining with your computer helps strengthen the Monero network. The more that people mine, the harder it is for the network to be attacked, and every little bit helps.&lt;br&gt; &lt;br&gt;Mining also gives you a small chance to earn some Monero. Your computer will create hashes looking for block solutions. If you find a block, you will get the associated reward. Good luck!</source>
+        <source>Mining with your computer helps strengthen the Pyrexcoin network. The more that people mine, the harder it is for the network to be attacked, and every little bit helps.&lt;br&gt; &lt;br&gt;Mining also gives you a small chance to earn some Pyrexcoin. Your computer will create hashes looking for block solutions. If you find a block, you will get the associated reward. Good luck!</source>
         <translation>التعدين بجهازك بيساعد في تقويه شبكه مونيرو. كل ما ناس ازيد بتعدن  كل ما كان اصعب مهاجمه الشبكه,  وكل مساهمه صغيره بتفرق ,. التعدين الفردي بيديك فرصه تكسب شويه مونيرو ,جهازك هيحاول يحل معادلات البلوك . لو لقيت بلوك والجايزه راحت ليك , مبروك عليك يا ابن المحظوظه </translation>
     </message>
     <message>
@@ -849,12 +849,12 @@
     </message>
     <message>
         <location filename="../pages/Receive.qml" line="138"/>
-        <source>With more Monero</source>
+        <source>With more Pyrexcoin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../pages/Receive.qml" line="139"/>
-        <source>With not enough Monero</source>
+        <source>With not enough Pyrexcoin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1176,7 +1176,7 @@
     </message>
     <message>
         <location filename="../pages/Settings.qml" line="645"/>
-        <source>Embedded Monero version: </source>
+        <source>Embedded Pyrexcoin version: </source>
         <translation>نسخه مونيرو المضمنة</translation>
     </message>
     <message>
@@ -1283,7 +1283,7 @@ The old wallet cache file will be renamed and can be restored later.
     </message>
     <message>
         <location filename="../pages/SharedRingDB.qml" line="97"/>
-        <source>This page allows you to interact with the shared ring database. This database is meant for use by Monero wallets as well as wallets from Monero clones which reuse the Monero keys.</source>
+        <source>This page allows you to interact with the shared ring database. This database is meant for use by Pyrexcoin wallets as well as wallets from Pyrexcoin clones which reuse the Pyrexcoin keys.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1300,7 +1300,7 @@ The old wallet cache file will be renamed and can be restored later.
     </message>
     <message>
         <location filename="../pages/SharedRingDB.qml" line="113"/>
-        <source>In order to obscure which inputs in a Monero transaction are being spent, a third party should not be able to tell which inputs in a ring are already known to be spent. Being able to do so would weaken the protection afforded by ring signatures. If all but one of the inputs are known to be already spent, then the input being actually spent becomes apparent, thereby nullifying the effect of ring signatures, one of the three main layers of privacy protection Monero uses.&lt;br&gt;To help transactions avoid those inputs, a list of known spent ones can be used to avoid using them in new transactions. Such a list is maintained by the Monero project and is available on the getmonero.org website, and you can import this list here.&lt;br&gt;Alternatively, you can scan the blockchain (and the blockchain of key-reusing Monero clones) yourself using the monero-blockchain-blackball tool to create a list of known spent outputs.&lt;br&gt;</source>
+        <source>In order to obscure which inputs in a Pyrexcoin transaction are being spent, a third party should not be able to tell which inputs in a ring are already known to be spent. Being able to do so would weaken the protection afforded by ring signatures. If all but one of the inputs are known to be already spent, then the input being actually spent becomes apparent, thereby nullifying the effect of ring signatures, one of the three main layers of privacy protection Pyrexcoin uses.&lt;br&gt;To help transactions avoid those inputs, a list of known spent ones can be used to avoid using them in new transactions. Such a list is maintained by the Pyrexcoin project and is available on the getmonero.org website, and you can import this list here.&lt;br&gt;Alternatively, you can scan the blockchain (and the blockchain of key-reusing Pyrexcoin clones) yourself using the pyrexcoin-blockchain-blackball tool to create a list of known spent outputs.&lt;br&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1366,12 +1366,12 @@ The old wallet cache file will be renamed and can be restored later.
     </message>
     <message>
         <location filename="../pages/SharedRingDB.qml" line="245"/>
-        <source>In order to avoid nullifying the protection afforded by Monero&apos;s ring signatures, an output should not be spent with different rings on different blockchains. While this is normally not a concern, it can become one when a key-reusing Monero clone allows you to spend existing outputs. In this case, you need to ensure this existing outputs uses the same ring on both chains.&lt;br&gt;This will be done automatically by Monero and any key-reusing software which is not trying to actively strip you of your privacy.&lt;br&gt;If you are using a key-reusing Monero clone too, and this clone does not include this protection, you can still ensure your transactions are protected by spending on the clone first, then manually adding the ring on this page, which allows you to then spend your Monero safely.&lt;br&gt;If you do not use a key-reusing Monero clone without these safety features, then you do not need to do anything as it is all automated.&lt;br&gt;</source>
+        <source>In order to avoid nullifying the protection afforded by Pyrexcoin&apos;s ring signatures, an output should not be spent with different rings on different blockchains. While this is normally not a concern, it can become one when a key-reusing Pyrexcoin clone allows you to spend existing outputs. In this case, you need to ensure this existing outputs uses the same ring on both chains.&lt;br&gt;This will be done automatically by Pyrexcoin and any key-reusing software which is not trying to actively strip you of your privacy.&lt;br&gt;If you are using a key-reusing Pyrexcoin clone too, and this clone does not include this protection, you can still ensure your transactions are protected by spending on the clone first, then manually adding the ring on this page, which allows you to then spend your Pyrexcoin safely.&lt;br&gt;If you do not use a key-reusing Pyrexcoin clone without these safety features, then you do not need to do anything as it is all automated.&lt;br&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../pages/SharedRingDB.qml" line="267"/>
-        <source>This records rings used by outputs spent on Monero on a key reusing chain, so that the same ring may be reused to avoid privacy issues.</source>
+        <source>This records rings used by outputs spent on Pyrexcoin on a key reusing chain, so that the same ring may be reused to avoid privacy issues.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1782,7 +1782,7 @@ The old wallet cache file will be renamed and can be restored later.
     </message>
     <message>
         <location filename="../pages/Transfer.qml" line="618"/>
-        <source>Monero sent successfully</source>
+        <source>Pyrexcoin sent successfully</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2023,12 +2023,12 @@ For the case with Spend Proof, you don&apos;t need to specify the recipient addr
     <name>WizardConfigure</name>
     <message>
         <location filename="../wizard/WizardConfigure.qml" line="79"/>
-        <source>We’re almost there - let’s just configure some Monero preferences</source>
+        <source>We’re almost there - let’s just configure some Pyrexcoin preferences</source>
         <translation> مبروك خلصنا, يلا نظبط شويه اعدادات للمونيرو .</translation>
     </message>
     <message>
         <location filename="../wizard/WizardConfigure.qml" line="97"/>
-        <source>Kickstart the Monero blockchain?</source>
+        <source>Kickstart the Pyrexcoin blockchain?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2043,7 +2043,7 @@ For the case with Spend Proof, you don&apos;t need to specify the recipient addr
     </message>
     <message>
         <location filename="../wizard/WizardConfigure.qml" line="140"/>
-        <source>Disk conservation mode uses substantially less disk-space, but the same amount of bandwidth as a regular Monero instance. However, storing the full blockchain is beneficial to the security of the Monero network. If you are on a device with limited disk space, then this option is appropriate for you.</source>
+        <source>Disk conservation mode uses substantially less disk-space, but the same amount of bandwidth as a regular Pyrexcoin instance. However, storing the full blockchain is beneficial to the security of the Pyrexcoin network. If you are on a device with limited disk space, then this option is appropriate for you.</source>
         <translation>وضع الحفاظ علي مساحه القرص يستخدم مساحه اقل بكثير . ولكن يستخدم نفس كم البيانات التي يستخدمها خادم مونيرو العادي , ومع ذلك تخزين سلسله الكتل كامله علي جهازك يفيد شبكه مونيرو ولكن اذا كنت علي جهاز مساحته محدوده هذا الخيار مناسب لك</translation>
     </message>
     <message>
@@ -2053,7 +2053,7 @@ For the case with Spend Proof, you don&apos;t need to specify the recipient addr
     </message>
     <message>
         <location filename="../wizard/WizardConfigure.qml" line="169"/>
-        <source>Mining secures the Monero network, and also pays a small reward for the work done. This option will let Monero mine when your computer is on mains power and is idle. It will stop mining when you continue working.</source>
+        <source>Mining secures the Pyrexcoin network, and also pays a small reward for the work done. This option will let Pyrexcoin mine when your computer is on mains power and is idle. It will stop mining when you continue working.</source>
         <translation>التعدين يحمي شبكه مونيرو .وايضا تدفع الشبكه مكافئه بسيطه تجاه هذا العمل . هذا الخيار يسيمح لمونيرو بالتعدين علي جهازك حينما يكون لا يستخدم ويعطل التعدين في حال استخامك للجهاز </translation>
     </message>
 </context>
@@ -2077,7 +2077,7 @@ For the case with Spend Proof, you don&apos;t need to specify the recipient addr
     <name>WizardDaemonSettings</name>
     <message>
         <location filename="../wizard/WizardDaemonSettings.qml" line="114"/>
-        <source>To be able to communicate with the Monero network your wallet needs to be connected to a Monero node. For best privacy it&apos;s recommended to run your own node.                         &lt;br&gt;&lt;br&gt;                         If you don&apos;t have the option to run your own node, there&apos;s an option to connect to a remote node.</source>
+        <source>To be able to communicate with the Pyrexcoin network your wallet needs to be connected to a Pyrexcoin node. For best privacy it&apos;s recommended to run your own node.                         &lt;br&gt;&lt;br&gt;                         If you don&apos;t have the option to run your own node, there&apos;s an option to connect to a remote node.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2110,7 +2110,7 @@ For the case with Spend Proof, you don&apos;t need to specify the recipient addr
     <name>WizardDonation</name>
     <message>
         <location filename="../wizard/WizardDonation.qml" line="93"/>
-        <source>Monero development is solely supported by donations</source>
+        <source>Pyrexcoin development is solely supported by donations</source>
         <translation>تطوير مونيرو قائم بشكل كلي علي التبرعات</translation>
     </message>
     <message>
@@ -2125,8 +2125,8 @@ For the case with Spend Proof, you don&apos;t need to specify the recipient addr
     </message>
     <message>
         <location filename="../wizard/WizardDonation.qml" line="162"/>
-        <source>For every transaction, a small transaction fee is charged. This option lets you add an additional amount, as a percentage of that fee, to your transaction to support Monero development. For instance, a 50% autodonation take a transaction fee of 0.005 XMR and add a 0.0025 XMR to support Monero development.</source>
-        <translation>لكل معامله هناك رسوم بسيطه. هذا الخيار يسمح ك باضافه كميه ا	ضافيه , كنسبه من هذه الرسوم , من معاملتك لدعم تطوير مونيرو. علي المثال , 50% تبرع تلقائي من معامله رسومها 0.005 XMR ويضاف 0.0025 XMR لمساعده تطوير مونيرو. </translation>
+        <source>For every transaction, a small transaction fee is charged. This option lets you add an additional amount, as a percentage of that fee, to your transaction to support Pyrexcoin development. For instance, a 50% autodonation take a transaction fee of 0.005 PYX and add a 0.0025 PYX to support Pyrexcoin development.</source>
+        <translation>لكل معامله هناك رسوم بسيطه. هذا الخيار يسمح ك باضافه كميه ا	ضافيه , كنسبه من هذه الرسوم , من معاملتك لدعم تطوير مونيرو. علي المثال , 50% تبرع تلقائي من معامله رسومها 0.005 PYX ويضاف 0.0025 PYX لمساعده تطوير مونيرو. </translation>
     </message>
     <message>
         <location filename="../wizard/WizardDonation.qml" line="174"/>
@@ -2135,7 +2135,7 @@ For the case with Spend Proof, you don&apos;t need to specify the recipient addr
     </message>
     <message>
         <location filename="../wizard/WizardDonation.qml" line="190"/>
-        <source>Mining secures the Monero network, and also pays a small reward for the work done. This option will let Monero mine when your computer is on mains power and is idle. It will stop mining when you continue working.</source>
+        <source>Mining secures the Pyrexcoin network, and also pays a small reward for the work done. This option will let Pyrexcoin mine when your computer is on mains power and is idle. It will stop mining when you continue working.</source>
         <translation>التعدين يحمي شبكه مونيرو. والشبكه ايضا تدفع مكافئه بسيطه لهذا العمل. هذا الخيار يسميح لمونيرو بالتعدين علي جهازك وهو لا يستخدم , لن يتم التعدين وجهازك قيد الاستخدام .</translation>
     </message>
 </context>
@@ -2228,7 +2228,7 @@ For the case with Spend Proof, you don&apos;t need to specify the recipient addr
     </message>
     <message>
         <location filename="../wizard/WizardMain.qml" line="367"/>
-        <source>USE MONERO</source>
+        <source>USE PYREXCOIN</source>
         <translation>إستخدم مونيرو</translation>
     </message>
     <message>
@@ -2333,7 +2333,7 @@ For the case with Spend Proof, you don&apos;t need to specify the recipient addr
     <name>WizardOptions</name>
     <message>
         <location filename="../wizard/WizardOptions.qml" line="75"/>
-        <source>Welcome to Monero!</source>
+        <source>Welcome to Pyrexcoin!</source>
         <translation>أهلا بيك في مونيرو</translation>
     </message>
     <message>
@@ -2407,7 +2407,7 @@ For the case with Spend Proof, you don&apos;t need to specify the recipient addr
     <name>WizardWelcome</name>
     <message>
         <location filename="../wizard/WizardWelcome.qml" line="73"/>
-        <source>Welcome to Monero!</source>
+        <source>Welcome to Pyrexcoin!</source>
         <translation>أهلا بيك في مونيرو!</translation>
     </message>
     <message>
@@ -2589,7 +2589,7 @@ Spending address index: </source>
     </message>
     <message>
         <location filename="../main.qml" line="790"/>
-        <source>Monero sent successfully: %1 transaction(s) </source>
+        <source>Pyrexcoin sent successfully: %1 transaction(s) </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2617,7 +2617,7 @@ Spending address index: </source>
     </message>
     <message>
         <location filename="../main.qml" line="864"/>
-        <source>This address received %1 monero, with %2 confirmation(s).</source>
+        <source>This address received %1 pyrexcoin, with %2 confirmation(s).</source>
         <translation>هذا العنوان استلم %1 مونيرو , مع %2 تأكيدات</translation>
     </message>
     <message>
@@ -2693,7 +2693,7 @@ Spending address index: </source>
     </message>
     <message>
         <location filename="../main.qml" line="1785"/>
-        <source>New version of monero-wallet-gui is available: %1&lt;br&gt;%2</source>
+        <source>New version of pyrexcoin-wallet-gui is available: %1&lt;br&gt;%2</source>
         <translation>إصدار جديد من واجهه مونيرو الرسويه متاح: %1&lt;br&gt;%2</translation>
     </message>
     <message>
@@ -2735,7 +2735,7 @@ Spending address index: </source>
     </message>
     <message>
         <location filename="../main.qml" line="861"/>
-        <source>This address received %1 monero, but the transaction is not yet mined</source>
+        <source>This address received %1 pyrexcoin, but the transaction is not yet mined</source>
         <translation>هذا العنوان استلم %1 مونيرو, لكن المعامله لم يتم تعدينها بعد</translation>
     </message>
     <message>
@@ -2765,7 +2765,7 @@ Spending address index: </source>
     </message>
     <message>
         <location filename="../main.qml" line="1287"/>
-        <source>Monero</source>
+        <source>Pyrexcoin</source>
         <translation>مونيرو</translation>
     </message>
     <message>

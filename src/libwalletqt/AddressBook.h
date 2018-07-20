@@ -6,7 +6,7 @@
 #include <QList>
 #include <QDateTime>
 
-namespace Monero {
+namespace Pyrexcoin {
 class AddressBook;
 }
 class AddressBookRow;

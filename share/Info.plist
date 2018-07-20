@@ -21,7 +21,7 @@
   <string>pyrexcoin-wallet-gui</string>
   
   <key>CFBundleName</key>
-  <string>Monero GUI</string>
+  <string>PyrexCoin GUI</string>
 
   <key>CFBundleIdentifier</key>
   <string>org.pyrexcoin-project.pyrexcoin-wallet-gui</string>

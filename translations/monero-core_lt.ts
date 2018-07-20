@@ -605,8 +605,8 @@
     </message>
     <message>
         <location filename="../pages/Mining.qml" line="82"/>
-        <source>Mining with your computer helps strengthen the Monero network. The more that people mine, the harder it is for the network to be attacked, and every little bit helps.&lt;br&gt; &lt;br&gt;Mining also gives you a small chance to earn some Monero. Your computer will create hashes looking for block solutions. If you find a block, you will get the associated reward. Good luck!</source>
-        <translation>Kasimas jūsų kompiuteriu padeda sustiprinti Monero tinklą. Kuo daugiau žmonių kasa - tuo sunkiau atakuoti tinklą.&lt;br&gt; &lt;br&gt; Kasimas suteikia Jums mažą galimybę gauti šiek tiek Monero. Jūsų kompiuteris kurs &apos;hašus&apos; ir taip bandys atrasti blokų sprendimus. Jeigu rasite bloką, gausite atitinkamą atlygį. Sėkmės!</translation>
+        <source>Mining with your computer helps strengthen the Pyrexcoin network. The more that people mine, the harder it is for the network to be attacked, and every little bit helps.&lt;br&gt; &lt;br&gt;Mining also gives you a small chance to earn some Pyrexcoin. Your computer will create hashes looking for block solutions. If you find a block, you will get the associated reward. Good luck!</source>
+        <translation>Kasimas jūsų kompiuteriu padeda sustiprinti Pyrexcoin tinklą. Kuo daugiau žmonių kasa - tuo sunkiau atakuoti tinklą.&lt;br&gt; &lt;br&gt; Kasimas suteikia Jums mažą galimybę gauti šiek tiek Pyrexcoin. Jūsų kompiuteris kurs &apos;hašus&apos; ir taip bandys atrasti blokų sprendimus. Jeigu rasite bloką, gausite atitinkamą atlygį. Sėkmės!</translation>
     </message>
     <message>
         <location filename="../pages/Mining.qml" line="95"/>
@@ -834,13 +834,13 @@
     </message>
     <message>
         <location filename="../pages/Receive.qml" line="138"/>
-        <source>With more Monero</source>
-        <translation>Su daugiau Monero</translation>
+        <source>With more Pyrexcoin</source>
+        <translation>Su daugiau Pyrexcoin</translation>
     </message>
     <message>
         <location filename="../pages/Receive.qml" line="139"/>
-        <source>With not enough Monero</source>
-        <translation>Su nepakankamai Monero</translation>
+        <source>With not enough Pyrexcoin</source>
+        <translation>Su nepakankamai Pyrexcoin</translation>
     </message>
     <message>
         <location filename="../pages/Receive.qml" line="141"/>
@@ -1166,8 +1166,8 @@
     </message>
     <message>
         <location filename="../pages/Settings.qml" line="645"/>
-        <source>Embedded Monero version: </source>
-        <translation>Įterpta Monero versija: </translation>
+        <source>Embedded Pyrexcoin version: </source>
+        <translation>Įterpta Pyrexcoin versija: </translation>
     </message>
     <message>
         <location filename="../pages/Settings.qml" line="657"/>
@@ -1268,8 +1268,8 @@ The old wallet cache file will be renamed and can be restored later.
     </message>
     <message>
         <location filename="../pages/SharedRingDB.qml" line="97"/>
-        <source>This page allows you to interact with the shared ring database. This database is meant for use by Monero wallets as well as wallets from Monero clones which reuse the Monero keys.</source>
-        <translation>Šis puslapis leidžia sąveikauti su bendrai naudojama žiedų duomenų baze. Ši duomenų bazė yra skirta naudoti Monero piniginėse, taip pat Monero klonų piniginėse, kurios pakartotinai naudoja Monero raktus.</translation>
+        <source>This page allows you to interact with the shared ring database. This database is meant for use by Pyrexcoin wallets as well as wallets from Pyrexcoin clones which reuse the Pyrexcoin keys.</source>
+        <translation>Šis puslapis leidžia sąveikauti su bendrai naudojama žiedų duomenų baze. Ši duomenų bazė yra skirta naudoti Pyrexcoin piniginėse, taip pat Pyrexcoin klonų piniginėse, kurios pakartotinai naudoja Pyrexcoin raktus.</translation>
     </message>
     <message>
         <location filename="../pages/SharedRingDB.qml" line="110"/>
@@ -1285,7 +1285,7 @@ The old wallet cache file will be renamed and can be restored later.
     </message>
     <message>
         <location filename="../pages/SharedRingDB.qml" line="113"/>
-        <source>In order to obscure which inputs in a Monero transaction are being spent, a third party should not be able to tell which inputs in a ring are already known to be spent. Being able to do so would weaken the protection afforded by ring signatures. If all but one of the inputs are known to be already spent, then the input being actually spent becomes apparent, thereby nullifying the effect of ring signatures, one of the three main layers of privacy protection Monero uses.&lt;br&gt;To help transactions avoid those inputs, a list of known spent ones can be used to avoid using them in new transactions. Such a list is maintained by the Monero project and is available on the getmonero.org website, and you can import this list here.&lt;br&gt;Alternatively, you can scan the blockchain (and the blockchain of key-reusing Monero clones) yourself using the monero-blockchain-blackball tool to create a list of known spent outputs.&lt;br&gt;</source>
+        <source>In order to obscure which inputs in a Pyrexcoin transaction are being spent, a third party should not be able to tell which inputs in a ring are already known to be spent. Being able to do so would weaken the protection afforded by ring signatures. If all but one of the inputs are known to be already spent, then the input being actually spent becomes apparent, thereby nullifying the effect of ring signatures, one of the three main layers of privacy protection Pyrexcoin uses.&lt;br&gt;To help transactions avoid those inputs, a list of known spent ones can be used to avoid using them in new transactions. Such a list is maintained by the Pyrexcoin project and is available on the getmonero.org website, and you can import this list here.&lt;br&gt;Alternatively, you can scan the blockchain (and the blockchain of key-reusing Pyrexcoin clones) yourself using the pyrexcoin-blockchain-blackball tool to create a list of known spent outputs.&lt;br&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1351,12 +1351,12 @@ The old wallet cache file will be renamed and can be restored later.
     </message>
     <message>
         <location filename="../pages/SharedRingDB.qml" line="245"/>
-        <source>In order to avoid nullifying the protection afforded by Monero&apos;s ring signatures, an output should not be spent with different rings on different blockchains. While this is normally not a concern, it can become one when a key-reusing Monero clone allows you to spend existing outputs. In this case, you need to ensure this existing outputs uses the same ring on both chains.&lt;br&gt;This will be done automatically by Monero and any key-reusing software which is not trying to actively strip you of your privacy.&lt;br&gt;If you are using a key-reusing Monero clone too, and this clone does not include this protection, you can still ensure your transactions are protected by spending on the clone first, then manually adding the ring on this page, which allows you to then spend your Monero safely.&lt;br&gt;If you do not use a key-reusing Monero clone without these safety features, then you do not need to do anything as it is all automated.&lt;br&gt;</source>
+        <source>In order to avoid nullifying the protection afforded by Pyrexcoin&apos;s ring signatures, an output should not be spent with different rings on different blockchains. While this is normally not a concern, it can become one when a key-reusing Pyrexcoin clone allows you to spend existing outputs. In this case, you need to ensure this existing outputs uses the same ring on both chains.&lt;br&gt;This will be done automatically by Pyrexcoin and any key-reusing software which is not trying to actively strip you of your privacy.&lt;br&gt;If you are using a key-reusing Pyrexcoin clone too, and this clone does not include this protection, you can still ensure your transactions are protected by spending on the clone first, then manually adding the ring on this page, which allows you to then spend your Pyrexcoin safely.&lt;br&gt;If you do not use a key-reusing Pyrexcoin clone without these safety features, then you do not need to do anything as it is all automated.&lt;br&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../pages/SharedRingDB.qml" line="267"/>
-        <source>This records rings used by outputs spent on Monero on a key reusing chain, so that the same ring may be reused to avoid privacy issues.</source>
+        <source>This records rings used by outputs spent on Pyrexcoin on a key reusing chain, so that the same ring may be reused to avoid privacy issues.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1868,8 +1868,8 @@ Ringsize: </source>
     </message>
     <message>
         <location filename="../pages/Transfer.qml" line="618"/>
-        <source>Monero sent successfully</source>
-        <translation>Monero sėkmingai išsiųsti</translation>
+        <source>Pyrexcoin sent successfully</source>
+        <translation>Pyrexcoin sėkmingai išsiųsti</translation>
     </message>
     <message>
         <location filename="../pages/Transfer.qml" line="672"/>
@@ -2017,12 +2017,12 @@ Jei naudojate &quot;Išleidimo įrodymas&quot;, jums nereikia nurodyti gavėjo a
     <name>WizardConfigure</name>
     <message>
         <location filename="../wizard/WizardConfigure.qml" line="79"/>
-        <source>We’re almost there - let’s just configure some Monero preferences</source>
-        <translation>Mes jau beveik baigėme.- liko tik keli Monero nustatymai</translation>
+        <source>We’re almost there - let’s just configure some Pyrexcoin preferences</source>
+        <translation>Mes jau beveik baigėme.- liko tik keli Pyrexcoin nustatymai</translation>
     </message>
     <message>
         <location filename="../wizard/WizardConfigure.qml" line="97"/>
-        <source>Kickstart the Monero blockchain?</source>
+        <source>Kickstart the Pyrexcoin blockchain?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2037,8 +2037,8 @@ Jei naudojate &quot;Išleidimo įrodymas&quot;, jums nereikia nurodyti gavėjo a
     </message>
     <message>
         <location filename="../wizard/WizardConfigure.qml" line="140"/>
-        <source>Disk conservation mode uses substantially less disk-space, but the same amount of bandwidth as a regular Monero instance. However, storing the full blockchain is beneficial to the security of the Monero network. If you are on a device with limited disk space, then this option is appropriate for you.</source>
-        <translation>Disko konservavimo režimas naudoja žymiai mažiau disko vietos, tačiau tokio paties pralaidumo kaip normalus &quot;Monero&quot;. Tačiau saugoti visą blokų grandinę naudinga &quot;Monero&quot; tinklo saugumui. Jei esate įrenginyje, kuriame yra ribota disko vieta, ši parinktis jums tinkamiausia.</translation>
+        <source>Disk conservation mode uses substantially less disk-space, but the same amount of bandwidth as a regular Pyrexcoin instance. However, storing the full blockchain is beneficial to the security of the Pyrexcoin network. If you are on a device with limited disk space, then this option is appropriate for you.</source>
+        <translation>Disko konservavimo režimas naudoja žymiai mažiau disko vietos, tačiau tokio paties pralaidumo kaip normalus &quot;Pyrexcoin&quot;. Tačiau saugoti visą blokų grandinę naudinga &quot;Pyrexcoin&quot; tinklo saugumui. Jei esate įrenginyje, kuriame yra ribota disko vieta, ši parinktis jums tinkamiausia.</translation>
     </message>
     <message>
         <location filename="../wizard/WizardConfigure.qml" line="153"/>
@@ -2047,8 +2047,8 @@ Jei naudojate &quot;Išleidimo įrodymas&quot;, jums nereikia nurodyti gavėjo a
     </message>
     <message>
         <location filename="../wizard/WizardConfigure.qml" line="169"/>
-        <source>Mining secures the Monero network, and also pays a small reward for the work done. This option will let Monero mine when your computer is on mains power and is idle. It will stop mining when you continue working.</source>
-        <translation>Kasimas apsaugo &quot;Monero&quot; tinklą, taip pat moka nedidelį atlygį už atliktą darbą. Ši parinktis leis kasti Monero, kai jūsų kompiuteris yra prijungtas prie maitinimo tinklo ir yra nenaudojamas. Jei tęsite darbą, jis nustos kasti.</translation>
+        <source>Mining secures the Pyrexcoin network, and also pays a small reward for the work done. This option will let Pyrexcoin mine when your computer is on mains power and is idle. It will stop mining when you continue working.</source>
+        <translation>Kasimas apsaugo &quot;Pyrexcoin&quot; tinklą, taip pat moka nedidelį atlygį už atliktą darbą. Ši parinktis leis kasti Pyrexcoin, kai jūsų kompiuteris yra prijungtas prie maitinimo tinklo ir yra nenaudojamas. Jei tęsite darbą, jis nustos kasti.</translation>
     </message>
 </context>
 <context>
@@ -2071,8 +2071,8 @@ Jei naudojate &quot;Išleidimo įrodymas&quot;, jums nereikia nurodyti gavėjo a
     <name>WizardDaemonSettings</name>
     <message>
         <location filename="../wizard/WizardDaemonSettings.qml" line="114"/>
-        <source>To be able to communicate with the Monero network your wallet needs to be connected to a Monero node. For best privacy it&apos;s recommended to run your own node.                         &lt;br&gt;&lt;br&gt;                         If you don&apos;t have the option to run your own node, there&apos;s an option to connect to a remote node.</source>
-        <translation>Tam, kad galėtumet komunikuoti Monero tinkle jums reikia piniginę prijungi prie jungties. Tam, kad užtikrinti geriausią privatumą rekomenduojame paleisti nuosavą jungtį.                          &lt;br&gt;&lt;br&gt;                        Jeigu neturite galimybės paleisti nuosavos jungties, galite jungti prie nutolusios jungties.</translation>
+        <source>To be able to communicate with the Pyrexcoin network your wallet needs to be connected to a Pyrexcoin node. For best privacy it&apos;s recommended to run your own node.                         &lt;br&gt;&lt;br&gt;                         If you don&apos;t have the option to run your own node, there&apos;s an option to connect to a remote node.</source>
+        <translation>Tam, kad galėtumet komunikuoti Pyrexcoin tinkle jums reikia piniginę prijungi prie jungties. Tam, kad užtikrinti geriausią privatumą rekomenduojame paleisti nuosavą jungtį.                          &lt;br&gt;&lt;br&gt;                        Jeigu neturite galimybės paleisti nuosavos jungties, galite jungti prie nutolusios jungties.</translation>
     </message>
     <message>
         <location filename="../wizard/WizardDaemonSettings.qml" line="126"/>
@@ -2104,8 +2104,8 @@ Jei naudojate &quot;Išleidimo įrodymas&quot;, jums nereikia nurodyti gavėjo a
     <name>WizardDonation</name>
     <message>
         <location filename="../wizard/WizardDonation.qml" line="93"/>
-        <source>Monero development is solely supported by donations</source>
-        <translation>Monero vystymas yra remiamas tik aukomis</translation>
+        <source>Pyrexcoin development is solely supported by donations</source>
+        <translation>Pyrexcoin vystymas yra remiamas tik aukomis</translation>
     </message>
     <message>
         <location filename="../wizard/WizardDonation.qml" line="113"/>
@@ -2119,8 +2119,8 @@ Jei naudojate &quot;Išleidimo įrodymas&quot;, jums nereikia nurodyti gavėjo a
     </message>
     <message>
         <location filename="../wizard/WizardDonation.qml" line="162"/>
-        <source>For every transaction, a small transaction fee is charged. This option lets you add an additional amount, as a percentage of that fee, to your transaction to support Monero development. For instance, a 50% autodonation take a transaction fee of 0.005 XMR and add a 0.0025 XMR to support Monero development.</source>
-        <translation>Už kiekvieną pavedimą taikomas nedidelė rinkliava. Ši parinktis leidžia pridėti papildomą sumą, kaip šios rinkliavos procentą prie jūsų pavedimo. Pvz., 50% automatinis rėmimas už pavedimo rinkliavą sudaro 0,005 XMR ir pridedant 0,0025 XMR, kad būtų remiama &quot;Monero&quot; plėtra.</translation>
+        <source>For every transaction, a small transaction fee is charged. This option lets you add an additional amount, as a percentage of that fee, to your transaction to support Pyrexcoin development. For instance, a 50% autodonation take a transaction fee of 0.005 PYX and add a 0.0025 PYX to support Pyrexcoin development.</source>
+        <translation>Už kiekvieną pavedimą taikomas nedidelė rinkliava. Ši parinktis leidžia pridėti papildomą sumą, kaip šios rinkliavos procentą prie jūsų pavedimo. Pvz., 50% automatinis rėmimas už pavedimo rinkliavą sudaro 0,005 PYX ir pridedant 0,0025 PYX, kad būtų remiama &quot;Pyrexcoin&quot; plėtra.</translation>
     </message>
     <message>
         <location filename="../wizard/WizardDonation.qml" line="174"/>
@@ -2129,8 +2129,8 @@ Jei naudojate &quot;Išleidimo įrodymas&quot;, jums nereikia nurodyti gavėjo a
     </message>
     <message>
         <location filename="../wizard/WizardDonation.qml" line="190"/>
-        <source>Mining secures the Monero network, and also pays a small reward for the work done. This option will let Monero mine when your computer is on mains power and is idle. It will stop mining when you continue working.</source>
-        <translation>Kasimas apsaugo &quot;Monero&quot; tinklą, taip pat moka nedidelį atlygį už atliktą darbą. Ši parinktis leis kasti Monero, kai jūsų kompiuteris yra prijungtas prie maitinimo tinklo ir yra nenaudojamas. Jei tęsite darbą, jis nustos kasti.</translation>
+        <source>Mining secures the Pyrexcoin network, and also pays a small reward for the work done. This option will let Pyrexcoin mine when your computer is on mains power and is idle. It will stop mining when you continue working.</source>
+        <translation>Kasimas apsaugo &quot;Pyrexcoin&quot; tinklą, taip pat moka nedidelį atlygį už atliktą darbą. Ši parinktis leis kasti Pyrexcoin, kai jūsų kompiuteris yra prijungtas prie maitinimo tinklo ir yra nenaudojamas. Jei tęsite darbą, jis nustos kasti.</translation>
     </message>
 </context>
 <context>
@@ -2222,8 +2222,8 @@ Jei naudojate &quot;Išleidimo įrodymas&quot;, jums nereikia nurodyti gavėjo a
     </message>
     <message>
         <location filename="../wizard/WizardMain.qml" line="367"/>
-        <source>USE MONERO</source>
-        <translation>NAUDOTI MONERO</translation>
+        <source>USE PYREXCOIN</source>
+        <translation>NAUDOTI PYREXCOIN</translation>
     </message>
     <message>
         <location filename="../wizard/WizardMain.qml" line="380"/>
@@ -2327,8 +2327,8 @@ Jei naudojate &quot;Išleidimo įrodymas&quot;, jums nereikia nurodyti gavėjo a
     <name>WizardOptions</name>
     <message>
         <location filename="../wizard/WizardOptions.qml" line="75"/>
-        <source>Welcome to Monero!</source>
-        <translation>Sveiki atvykę į Monero!</translation>
+        <source>Welcome to Pyrexcoin!</source>
+        <translation>Sveiki atvykę į Pyrexcoin!</translation>
     </message>
     <message>
         <location filename="../wizard/WizardOptions.qml" line="86"/>
@@ -2402,8 +2402,8 @@ Jei naudojate &quot;Išleidimo įrodymas&quot;, jums nereikia nurodyti gavėjo a
     <name>WizardWelcome</name>
     <message>
         <location filename="../wizard/WizardWelcome.qml" line="73"/>
-        <source>Welcome to Monero!</source>
-        <translation>Sveiki atvykę į Monero!</translation>
+        <source>Welcome to Pyrexcoin!</source>
+        <translation>Sveiki atvykę į Pyrexcoin!</translation>
     </message>
     <message>
         <location filename="../wizard/WizardWelcome.qml" line="83"/>
@@ -2597,8 +2597,8 @@ Išlaidų adreso rodyklė: </translation>
     </message>
     <message>
         <location filename="../main.qml" line="790"/>
-        <source>Monero sent successfully: %1 transaction(s) </source>
-        <translation>Monero sėkmingai išsiųsti: %1 operacija (-os) </translation>
+        <source>Pyrexcoin sent successfully: %1 transaction(s) </source>
+        <translation>Pyrexcoin sėkmingai išsiųsti: %1 operacija (-os) </translation>
     </message>
     <message>
         <location filename="../main.qml" line="823"/>
@@ -2621,8 +2621,8 @@ Išlaidų adreso rodyklė: </translation>
     </message>
     <message>
         <location filename="../main.qml" line="864"/>
-        <source>This address received %1 monero, with %2 confirmation(s).</source>
-        <translation>Šis adresas gavo%1 Monero, su%2 patvirtinimu (-ais).</translation>
+        <source>This address received %1 pyrexcoin, with %2 confirmation(s).</source>
+        <translation>Šis adresas gavo%1 Pyrexcoin, su%2 patvirtinimu (-ais).</translation>
     </message>
     <message>
         <location filename="../main.qml" line="875"/>
@@ -2697,8 +2697,8 @@ Išlaidų adreso rodyklė: </translation>
     </message>
     <message>
         <location filename="../main.qml" line="1785"/>
-        <source>New version of monero-wallet-gui is available: %1&lt;br&gt;%2</source>
-        <translation>Yra nauja monero-wallet-gui versija: %1&lt;br&gt;%2</translation>
+        <source>New version of pyrexcoin-wallet-gui is available: %1&lt;br&gt;%2</source>
+        <translation>Yra nauja pyrexcoin-wallet-gui versija: %1&lt;br&gt;%2</translation>
     </message>
     <message>
         <location filename="../main.qml" line="1817"/>
@@ -2739,8 +2739,8 @@ Išlaidų adreso rodyklė: </translation>
     </message>
     <message>
         <location filename="../main.qml" line="861"/>
-        <source>This address received %1 monero, but the transaction is not yet mined</source>
-        <translation>Šis adresas gavo%1 Monero, tačiau pavedimas dar nėra iškastas</translation>
+        <source>This address received %1 pyrexcoin, but the transaction is not yet mined</source>
+        <translation>Šis adresas gavo%1 Pyrexcoin, tačiau pavedimas dar nėra iškastas</translation>
     </message>
     <message>
         <location filename="../main.qml" line="868"/>
@@ -2769,7 +2769,7 @@ Išlaidų adreso rodyklė: </translation>
     </message>
     <message>
         <location filename="../main.qml" line="1287"/>
-        <source>Monero</source>
+        <source>Pyrexcoin</source>
         <translation>Bitlitas</translation>
     </message>
     <message>
