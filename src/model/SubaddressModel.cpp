@@ -60,7 +60,7 @@ QVariant SubaddressModel::data(const QModelIndex &index, int role) const
     if (!index.isValid() || index.row() < 0 || (unsigned)index.row() >= m_subaddress->count())
         return {};
 
-    Pyrexcoin::SubaddressRow * sr = m_subaddress->getRow(index.row());
+    Monero::SubaddressRow * sr = m_subaddress->getRow(index.row());
     if (!sr)
         return {};
 

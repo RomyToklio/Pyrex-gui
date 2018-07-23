@@ -39,11 +39,11 @@ void messageHandler(QtMsgType type, const QMessageLogContext &context, const QSt
     const std::string msg = message.toStdString();
     switch(type)
     {
-        case QtDebugMsg: Pyrexcoin::Wallet::debug(cat, msg); break;
-        case QtInfoMsg: Pyrexcoin::Wallet::info(cat, msg); break;
-        case QtWarningMsg: Pyrexcoin::Wallet::warning(cat, msg); break;
-        case QtCriticalMsg: Pyrexcoin::Wallet::error(cat, msg); break;
-        case QtFatalMsg: Pyrexcoin::Wallet::error(cat, msg); break;
+        case QtDebugMsg: Monero::Wallet::debug(cat, msg); break;
+        case QtInfoMsg: Monero::Wallet::info(cat, msg); break;
+        case QtWarningMsg: Monero::Wallet::warning(cat, msg); break;
+        case QtCriticalMsg: Monero::Wallet::error(cat, msg); break;
+        case QtFatalMsg: Monero::Wallet::error(cat, msg); break;
     }
 }
 

@@ -29,14 +29,14 @@
 #include "Subaddress.h"
 #include <QDebug>
 
-Subaddress::Subaddress(Pyrexcoin::Subaddress *subaddressImpl, QObject *parent)
+Subaddress::Subaddress(Monero::Subaddress *subaddressImpl, QObject *parent)
   : QObject(parent), m_subaddressImpl(subaddressImpl)
 {
     qDebug(__FUNCTION__);
     getAll();
 }
 
-QList<Pyrexcoin::SubaddressRow*> Subaddress::getAll(bool update) const
+QList<Monero::SubaddressRow*> Subaddress::getAll(bool update) const
 {
     qDebug(__FUNCTION__);
 
@@ -55,7 +55,7 @@ QList<Pyrexcoin::SubaddressRow*> Subaddress::getAll(bool update) const
     return m_rows;
 }
 
-Pyrexcoin::SubaddressRow * Subaddress::getRow(int index) const
+Monero::SubaddressRow * Subaddress::getRow(int index) const
 {
     return m_rows.at(index);
 }

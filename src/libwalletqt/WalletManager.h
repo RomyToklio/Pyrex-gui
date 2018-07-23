@@ -9,7 +9,7 @@
 #include "NetworkType.h"
 
 class Wallet;
-namespace Pyrexcoin {
+namespace  Monero {
     class WalletManager;
 }
 
@@ -20,14 +20,14 @@ class WalletManager : public QObject
 
 public:
     enum LogLevel {
-        LogLevel_Silent = Pyrexcoin::WalletManagerFactory::LogLevel_Silent,
-        LogLevel_0 = Pyrexcoin::WalletManagerFactory::LogLevel_0,
-        LogLevel_1 = Pyrexcoin::WalletManagerFactory::LogLevel_1,
-        LogLevel_2 = Pyrexcoin::WalletManagerFactory::LogLevel_2,
-        LogLevel_3 = Pyrexcoin::WalletManagerFactory::LogLevel_3,
-        LogLevel_4 = Pyrexcoin::WalletManagerFactory::LogLevel_4,
-        LogLevel_Min = Pyrexcoin::WalletManagerFactory::LogLevel_Min,
-        LogLevel_Max = Pyrexcoin::WalletManagerFactory::LogLevel_Max,
+        LogLevel_Silent = Monero::WalletManagerFactory::LogLevel_Silent,
+        LogLevel_0 = Monero::WalletManagerFactory::LogLevel_0,
+        LogLevel_1 = Monero::WalletManagerFactory::LogLevel_1,
+        LogLevel_2 = Monero::WalletManagerFactory::LogLevel_2,
+        LogLevel_3 = Monero::WalletManagerFactory::LogLevel_3,
+        LogLevel_4 = Monero::WalletManagerFactory::LogLevel_4,
+        LogLevel_Min = Monero::WalletManagerFactory::LogLevel_Min,
+        LogLevel_Max = Monero::WalletManagerFactory::LogLevel_Max,
     };
 
     static WalletManager * instance();
@@ -154,7 +154,7 @@ private:
 
     explicit WalletManager(QObject *parent = 0);
     static WalletManager * m_instance;
-    Pyrexcoin::WalletManager * m_pimpl;
+    Monero::WalletManager * m_pimpl;
     QMutex m_mutex;
     QPointer<Wallet> m_currentWallet;
 
