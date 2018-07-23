@@ -1,3 +1,6 @@
 [submodule "Pyrex"]
 	path = Pyrex
 	url = https://github.com/pyrex-coin/Pyrex.git
+[submodule "Pyrex-gui"]
+	path = Pyrex-gui
+	url = https://github.com/RomyToklio/Pyrex-gui.git
