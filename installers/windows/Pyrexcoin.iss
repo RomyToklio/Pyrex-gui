@@ -50,7 +50,7 @@ Source: "ReadMe.htm"; DestDir: "{app}"; Flags: ignoreversion
 Source: "FinishImage.bmp"; Flags: dontcopy
 
 ; Pyrexcoin GUI wallet
-Source: "bin\pyrex-wallet-gui.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\pyrexcoin-wallet-gui.exe"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Pyrexcoin GUI wallet log file
 ; The GUI wallet does not have the "--log-file" command-line option of the CLI wallet and insists to put the .log beside the .exe
