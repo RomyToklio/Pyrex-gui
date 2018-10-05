@@ -34,7 +34,7 @@ DaemonManager *DaemonManager::instance(const QStringList *args)
 
 bool DaemonManager::start(const QString &flags, NetworkType::Type nettype, const QString &dataDir, const QString &bootstrapNodeAddress)
 {
-    // prepare command line arguments and pass to monerod
+    // prepare command line arguments and pass to pyrexcoind
     QStringList arguments;
 
     // Start daemon with --detach flag on non-windows platforms
@@ -84,7 +84,7 @@ bool DaemonManager::start(const QString &flags, NetworkType::Type nettype, const
     connect (m_daemon, SIGNAL(readyReadStandardOutput()), this, SLOT(printOutput()));
     connect (m_daemon, SIGNAL(readyReadStandardError()), this, SLOT(printError()));
 
-    // Start monerod
+    // Start pyrexcoind
     bool started = m_daemon->startDetached(m_monerod, arguments);
 
     // add state changed listener
@@ -214,7 +214,7 @@ bool DaemonManager::running(NetworkType::Type nettype) const
     QString status;
     sendCommand("status", nettype, status);
     qDebug() << status;
-    // `./monerod status` returns BUSY when syncing.
+    // `./pyrexcoind status` returns BUSY when syncing.
     // Treat busy as connected, until fixed upstream.
     if (status.contains("Height:") || status.contains("BUSY") ) {
         return true;
@@ -298,7 +298,7 @@ DaemonManager::DaemonManager(QObject *parent)
     : QObject(parent)
 {
 
-    // Platform depetent path to monerod
+    // Platform depetent path to pyrexcoind
 #ifdef Q_OS_WIN
     m_monerod = QApplication::applicationDirPath() + "/pyrexcoind.exe";
 #elif defined(Q_OS_UNIX)

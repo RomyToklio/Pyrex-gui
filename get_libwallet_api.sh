@@ -75,8 +75,7 @@ else
 fi
 
 if [ "$BUILD_LIBWALLET" != true ]; then
-    # exit this script
-    return
+    exit 0
 fi
 
 echo "GUI_MONERO_VERSION=\"$VERSIONTAG\"" > $MONERO_DIR/version.sh
@@ -218,7 +217,7 @@ eval $make_exec  -j$CPU_CORE_COUNT
 eval $make_exec  install -j$CPU_CORE_COUNT
 popd
 
-# Build monerod
+# Build pyrexcoind
 # win32 need to build daemon manually with msys2 toolchain
 if [ "$platform" != "mingw32" ] && [ "$ANDROID" != true ]; then
     pushd $MONERO_DIR/build/$BUILD_TYPE/src/daemon
