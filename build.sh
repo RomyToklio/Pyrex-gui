@@ -72,7 +72,7 @@ if [[ $platform == *bsd* ]]; then
 fi
 
 # build libwallet
-#./get_libwallet_api.sh $BUILD_TYPE
+./get_libwallet_api.sh $BUILD_TYPE
  
 # build zxcvbn
 if [ "$DISABLE_PASS_STRENGTH_METER" != true ]; then
@@ -98,11 +98,11 @@ fi
 
 # force version update
 get_tag
-#echo "var GUI_VERSION = \"$TAGNAME\"" > version.js
+echo "var GUI_VERSION = \"$TAGNAME\"" > version.js
 pushd "$MONERO_DIR"
 get_tag
 popd
-#echo "var GUI_MONERO_VERSION = \"$TAGNAME\"" >> version.js
+echo "var GUI_MONERO_VERSION = \"$TAGNAME\"" >> version.js
 
 cd build
 if ! QMAKE=$(find_command qmake qmake-qt5); then
