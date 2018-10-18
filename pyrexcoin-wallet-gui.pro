@@ -10,8 +10,8 @@ QT += qml quick widgets
 WALLET_ROOT=$$PWD/Pyrex
 
 CONFIG += c++11 link_pkgconfig
-packagesExist(libpcsclite) {
-    PKGCONFIG += libpcsclite
+packagesExist(hidapi-libusb) {
+    PKGCONFIG += hidapi-libusb
 }
 !win32 {
     QMAKE_CXXFLAGS += -fPIC -fstack-protector -fstack-protector-strong
@@ -298,6 +298,7 @@ linux {
         -lssl \
         -llmdb \
         -lsodium \
+        -lhidapi-libusb \
         -lcrypto
 
     if(!android) {
@@ -328,6 +329,7 @@ macx {
         -L/usr/local/opt/openssl/lib \
         -L/usr/local/opt/boost/lib \
         -lboost_serialization \
+        -lhidapi \
         -lboost_thread-mt \
         -lboost_system \
         -lboost_date_time \
