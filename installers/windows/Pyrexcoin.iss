@@ -73,10 +73,10 @@ Source: "bin\pyrexcoind.exe"; DestDir: "{app}"; Flags: ignoreversion
 ; Pyrexcoin daemon wrapped in a batch file that stops before the text window closes, to see any error messages
 Source: "pyrexcoin-daemon.bat"; DestDir: "{app}"; Flags: ignoreversion;
 
-; Pyrexcoin blockchain utilities
+; Monero blockchain utilities
 Source: "bin\pyrexcoin-blockchain-export.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "bin\pyrexcoin-blockchain-import.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\pyrexcoin-blockchain-blackball.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\pyrexcoin-blockchain-mark-spent-outputs.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "bin\pyrexcoin-blockchain-usage.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "bin\pyrexcoin-blockchain-import.exe"; DestDir: "{app}"; Flags: ignoreversion
 

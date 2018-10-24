@@ -117,9 +117,9 @@ Rectangle {
             Layout.fillWidth: true
             textFormat: Text.RichText
             text: "<style type='text/css'>a {text-decoration: none; color: #FF6C3C; font-size: 14px;}</style>" +
-                  qsTr("Blackballed outputs") + " <a href='#'>" + qsTr("Help") + "</a>" + translationManager.emptyString
+                  qsTr("Outputs marked as spent") + " <a href='#'>" + qsTr("Help") + "</a>" + translationManager.emptyString
             onLinkActivated: {
-                sharedRingDBDialog.title  = qsTr("Blackballed outputs") + translationManager.emptyString;
+                sharedRingDBDialog.title  = qsTr("Outputs marked as spent") + translationManager.emptyString;
                 sharedRingDBDialog.text = qsTr(
                     "In order to obscure which inputs in a PYREXCOIN transaction are being spent, a third party should not be able " +
                     "to tell which inputs in a ring are already known to be spent. Being able to do so would weaken the protection " +
@@ -129,8 +129,8 @@ Rectangle {
                     "To help transactions avoid those inputs, a list of known spent ones can be used to avoid using them in new " +
                     "transactions. Such a list is maintained by the PYREXCOIN project and is available on the getPYREXCOIN.org website, " +
                     "and you can import this list here.<br>" +
-                    "Alternatively, you can scan the blockchain (and the blockchain of key-reusing PYREXCOIN clones) yourself " +
-                    "using the pyrexcoin-blockchain-blackball tool to create a list of known spent outputs.<br>"
+                    "Alternatively, you can scan the blockchain (and the blockchain of key-reusing Pyrexcoin clones) yourself " +
+                    "using the pyrexcoin-blockchain-mark-spent-outputs tool to create a list of known spent outputs.<br>"
                 )
                 sharedRingDBDialog.icon = StandardIcon.Information
                 sharedRingDBDialog.open()
@@ -154,7 +154,7 @@ Rectangle {
 
             FileDialog {
                 id: loadBlackballFileDialog
-                title: qsTr("Please choose a file to load blackballed outputs from") + translationManager.emptyString;
+                title: qsTr("Please choose a file from which to load outputs to mark as spent") + translationManager.emptyString;
                 folder: "file://"
                 nameFilters: [ "*"]
 
@@ -172,7 +172,7 @@ Rectangle {
                     fontSize: mainLayout.lineEditFontSize
                     placeholderText: qsTr("Path to file") + "..." + translationManager.emptyString
                     labelFontSize: 14 * scaleRatio
-                    labelText: qsTr("Filename with outputs to blackball") + ":" + translationManager.emptyString
+                    labelText: qsTr("Filename with outputs to mark as spent") + ":" + translationManager.emptyString
                     copyButton: true
                     readOnly: false
                 }
@@ -212,7 +212,7 @@ Rectangle {
                     id: blackballOutputAmountLine
                     fontSize: mainLayout.lineEditFontSize
                     labelFontSize: 14 * scaleRatio
-                    labelText: qsTr("Or manually blackball/unblackball a single output:") + translationManager.emptyString
+                    labelText: qsTr("Or manually mark a single output as spent/unspent:") + translationManager.emptyString
                     placeholderText: qsTr("Paste output amount") + "..." + translationManager.emptyString
                     readOnly: false
                     width: mainLayout.editWidth / 2
@@ -236,7 +236,7 @@ Rectangle {
 
                 StandardButton {
                     id: blackballButton
-                    text: qsTr("Blackball") + translationManager.emptyString
+                    text: qsTr("Mark as spent") + translationManager.emptyString
                     small: true
                     enabled: !!appWindow.currentWallet && validUnsigned(blackballOutputAmountLine.text) && validUnsigned(blackballOutputOffsetLine.text)
                     onClicked: appWindow.currentWallet.blackballOutput(blackballOutputAmountLine.text, blackballOutputOffsetLine.text)
@@ -245,7 +245,7 @@ Rectangle {
                 StandardButton {
                     id: unblackballButton
                     anchors.right: parent.right
-                    text: qsTr("Unblackball") + translationManager.emptyString
+                    text: qsTr("Mark as unspent") + translationManager.emptyString
                     small: true
                     enabled: !!appWindow.currentWallet && validUnsigned(blackballOutputAmountLine.text) && validUnsigned(blackballOutputOffsetLine.text)
                     onClicked: appWindow.currentWallet.unblackballOutput(blackballOutputAmountLine.text, blackballOutputOffsetLine.text)
