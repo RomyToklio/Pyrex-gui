@@ -8,7 +8,7 @@ AppName=Pyrexcoin GUI Wallet
 ; Thus it's important to keep this stable over releases
 ; With a different "AppName" InnoSetup would treat a mere update as a completely new application and thus mess up
 
-AppVersion=0.12.3.0
+AppVersion=0.13.0.4
 DefaultDirName={pf}\Pyrexcoin GUI Wallet
 DefaultGroupName=Pyrexcoin GUI Wallet
 UninstallDisplayIcon={app}\pyrexcoin-wallet-gui.exe
@@ -19,8 +19,23 @@ WizardSmallImageFile=WizardSmallImage.bmp
 WizardImageFile=WelcomeImage.bmp
 DisableWelcomePage=no
 LicenseFile=LICENSE
-AppPublisher=The Monero Developer Community
-AppPublisherURL=https://getmonero.org
+AppPublisher=The Pyrexcoin Developer Community
+AppPublisherURL=https://pyrexcoin.com
+
+UsedUserAreasWarning=no
+; The above directive silences the following compiler warning:
+;    Warning: The [Setup] section directive "PrivilegesRequired" is set to "admin" but per-user areas (HKCU,userdocs)
+;    are used by the script. Regardless of the version of Windows, if the installation is administrative then you should
+;    be careful about making any per-user area changes: such changes may not achieve what you are intending.
+; Background info:
+; This installer indeed asks for admin rights so the Pyrexcoin files can be copied to a place where they have at least
+; a minimum of protection against changes, e.g. by malware, plus it handles things for the currently logged-in user
+; in the registry (GUI wallet per-user options) and for some of the icons. For reasons too complicated to fully explain
+; here this does not work as intended if the installing user does not have admin rights and has to provide the password
+; of a user that does for installing: The settings of the admin user instead of those of the installing user are changed.
+; Short of ripping out that per-user functionality the issue has no suitable solution. Fortunately, this will probably
+; play a role in only in few cases as the first standard user in a Windows installation does have admin rights.
+; So, for the time being, this installer simply disregards this problem.
 
 
 [Languages]
@@ -41,7 +56,7 @@ Name: "en"; MessagesFile: "compiler:Default.isl"
 ; .exe/.dll file possibly with version info).
 ;
 ; This is far more robust than relying on version info or on file dates (flag "comparetimestamp").
-; As of version 0.12.3.0, the Pyrexcoin .exe files do not carry version info anyway in their .exe headers.
+; As of version 0.13.0.4, the Pyrexcoin .exe files do not carry version info anyway in their .exe headers.
 ; The only small drawback seems to be somewhat longer update times because each and every file is
 ; copied again, even if already present with correct file date and identical content.
 ;
@@ -51,8 +66,9 @@ Name: "en"; MessagesFile: "compiler:Default.isl"
 Source: "ReadMe.htm"; DestDir: "{app}"; Flags: ignoreversion
 Source: "FinishImage.bmp"; Flags: dontcopy
 
-; Pyrexcoin GUI wallet
+; Pyrexcoin GUI wallet exe and guide
 Source: "bin\pyrexcoin-wallet-gui.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\pyrexcoin-GUI-guide.pdf"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Pyrexcoin GUI wallet log file
 ; The GUI wallet does not have the "--log-file" command-line option of the CLI wallet and insists to put the .log beside the .exe
@@ -60,7 +76,7 @@ Source: "bin\pyrexcoin-wallet-gui.exe"; DestDir: "{app}"; Flags: ignoreversion
 ; Flag is "onlyifdoesntexist": We do not want to overwrite an already existing log
 Source: "pyrexcoin-wallet-gui.log"; DestDir: "{app}"; Flags: onlyifdoesntexist; Permissions: users-modify
 
-; Monero CLI wallet
+; Pyrexcoin CLI wallet
 Source: "bin\pyrexcoin-wallet-cli.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "bin\pyrexcoin-gen-trusted-multisig.exe"; DestDir: "{app}"; Flags: ignoreversion
 
@@ -73,12 +89,14 @@ Source: "bin\pyrexcoind.exe"; DestDir: "{app}"; Flags: ignoreversion
 ; Pyrexcoin daemon wrapped in a batch file that stops before the text window closes, to see any error messages
 Source: "pyrexcoin-daemon.bat"; DestDir: "{app}"; Flags: ignoreversion;
 
-; Monero blockchain utilities
+; Pyrexcoin blockchain utilities
 Source: "bin\pyrexcoin-blockchain-export.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "bin\pyrexcoin-blockchain-import.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "bin\pyrexcoin-blockchain-mark-spent-outputs.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "bin\pyrexcoin-blockchain-usage.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "bin\pyrexcoin-blockchain-import.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\pyrexcoin-blockchain-ancestry.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\pyrexcoin-blockchain-depth.exe"; DestDir: "{app}"; Flags: ignoreversion
 
 ; was present in 0.10.3.1, not present anymore in 0.11.1.0 and after
 ; Source: "bin\pyrexcoin-utils-deserialize.exe"; DestDir: "{app}"; Flags: ignoreversion
@@ -230,6 +248,9 @@ Source: "bin\zlib1.dll"; DestDir: "{app}"; Flags: ignoreversion
 ; Stack protection
 Source: "bin\libssp-0.dll"; DestDir: "{app}"; Flags: ignoreversion
 
+; HIDAPI, library for communicating with USB and Bluetooth devices, for hardware wallets
+Source: "bin\libhidapi-0.dll"; DestDir: "{app}"; Flags: ignoreversion
+
 
 [Tasks]
 Name: desktopicon; Description: "Create a &desktop icon"; GroupDescription: "Additional icons:";
@@ -249,7 +270,6 @@ var
 
 procedure InitializeWizard;
 var s: String;
-    width: Integer;
     blockChainDir: String;
 begin
   // Large image for the "Welcome" page, with page reconfigured
@@ -263,9 +283,9 @@ begin
   WizardForm.WizardBitmapImage2.Bitmap.LoadFromFile(ExpandConstant('{tmp}\FinishImage.bmp'));
 
   // Additional wizard page for entering a special blockchain location
-  blockChainDefaultDir := ExpandConstant('{commonappdata}\bitmonero');
+  blockChainDefaultDir := ExpandConstant('{commonappdata}\Pyrexcoin');
   s := 'The default folder to store the Pyrexcoin blockchain is ' + blockChainDefaultDir;
-  s := s + '. As this will need more than 60 GB of free space, you may want to use a folder on a different drive.';
+  s := s + '. As this will need more than 70 GB of free space, you may want to use a folder on a different drive.';
   s := s + ' If yes, specify that folder here.';
 
   BlockChainDirPage := CreateInputDirPage(wpSelectDir,
@@ -281,7 +301,7 @@ begin
     blockChainDir := GetPreviousData('BlockChainDir', '');
   end;
   if blockChainDir = '' then begin
-    // Unfortunately 'TInputDirWizardDirPage' does not allow empty field, so "propose" Monero default location
+    // Unfortunately 'TInputDirWizardDirPage' does not allow empty field, so "propose" Pyrexcoin default location
     blockChainDir := blockChainDefaultDir;
   end;
   BlockChainDirPage.Values[0] := blockChainDir;
@@ -353,6 +373,21 @@ begin
   Result := s;
 end;
 
+function WalletFlags(Param: String): String;
+// Flags to add to the shortcut to the GUI wallet
+// Use "--log-file" to force log file alongside the installed GUI exe which would not get
+// created there because of an unsolved issue in the 0.13.0.4 wallet code
+var s: String;
+begin
+  s := ExpandConstant('{app}\pyrexcoin-wallet-gui.log');
+  if Pos(' ', s) > 0 then begin
+    // Quotes needed for filename with blanks
+    s := '"' + s + '"';
+  end;
+  s := '--log-file ' + s;
+  Result := s;
+end;
+
 procedure CurStepChanged(CurStep: TSetupStep);
 var s: TArrayOfString;
 begin
@@ -380,7 +415,8 @@ end;
 [Icons]
 ; Icons in the "Pyrexcoin GUI Wallet" program group
 ; Windows will almost always display icons in alphabetical order, per level, so specify the text accordingly
-Name: "{group}\GUI Wallet"; Filename: "{app}\pyrexcoin-wallet-gui.exe"
+Name: "{group}\GUI Wallet"; Filename: "{app}\pyrexcoin-wallet-gui.exe"; Parameters: {code:WalletFlags}
+Name: "{group}\GUI Wallet Guide"; Filename: "{app}\pyrexcoin-GUI-guide.pdf"; IconFilename: "{app}\pyrexcoin-wallet-gui.exe"
 Name: "{group}\Uninstall GUI Wallet"; Filename: "{uninstallexe}"
 
 ; Sub-folder "Utilities";
@@ -405,7 +441,7 @@ Name: "{group}\Utilities\x (Try GUI Wallet Low Graphics Mode)"; Filename: "{app}
 Name: "{group}\Utilities\x (Try Kill Daemon)"; Filename: "Taskkill.exe"; Parameters: "/IM pyrexcoind.exe /T /F"
 
 ; Desktop icons, optional with the help of the "Task" section
-Name: "{userdesktop}\GUI Wallet"; Filename: "{app}\pyrexcoin-wallet-gui.exe"; Tasks: desktopicon
+Name: "{commondesktop}\GUI Wallet"; Filename: "{app}\pyrexcoin-wallet-gui.exe"; Parameters: {code:WalletFlags}; Tasks: desktopicon
 
 
 [Registry]

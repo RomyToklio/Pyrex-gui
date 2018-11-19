@@ -144,6 +144,34 @@ Rectangle {
                     font.bold: true
                     color: "#ff9323"
                 }
+
+                Rectangle {
+                    height: (logoutImage.height + 8) * scaleRatio
+                    width: (logoutImage.width + 8) * scaleRatio
+                    color: "transparent"
+                    anchors.right: parent.right
+                    anchors.rightMargin: 8
+                    anchors.top: parent.top
+                    anchors.topMargin: 25
+
+                    Image {
+                        id: logoutImage
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        height: 16 * scaleRatio
+                        width: 13 * scaleRatio
+                        source: "../images/logout.png"
+                    }
+
+                    MouseArea{
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        onClicked: {
+                            appWindow.showWizard();
+                        }
+                    }
+                }
             }
 
             Item {
@@ -201,6 +229,7 @@ Rectangle {
                     id: unlockedBalanceLabel
                     visible: true
                     text: qsTr("Unlocked balance") + translationManager.emptyString
+                    fontSize: 14
                     anchors.left: parent.left
                     anchors.leftMargin: 20
                     anchors.top: parent.top

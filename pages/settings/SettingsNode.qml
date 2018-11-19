@@ -298,6 +298,9 @@ Rectangle{
                     persistentSettings.remoteNodeAddress = remoteNodeEdit.getAddress();
                     console.log("setting remote node to " + persistentSettings.remoteNodeAddress)
                 }
+                onTextChanged: {
+                    rectConnectRemote.enabled = remoteNodeEdit.isValid();
+                }
             }
 
             GridLayout {
@@ -331,7 +334,8 @@ Rectangle{
             Rectangle {
                 id: rectConnectRemote
                 Layout.topMargin: 12 * scaleRatio
-                color: MoneroComponents.Style.buttonBackgroundColorDisabled
+                enabled: remoteNodeEdit.isValid()
+                color: enabled ? MoneroComponents.Style.buttonBackgroundColor : MoneroComponents.Style.buttonBackgroundColorDisabled
                 width: btnConnectRemote.width + 40
                 height: 26
                 radius: 2
@@ -349,6 +353,7 @@ Rectangle{
 
                 MouseArea {
                     cursorShape: Qt.PointingHandCursor
+                    visible: rectConnectRemote.enabled
                     anchors.fill: parent
                     onClicked: {
                         // Update daemon login
@@ -382,28 +387,32 @@ Rectangle{
                 Layout.preferredWidth: parent.width
 
                 Rectangle {
-                    id: rectStopNode
-                    color: MoneroComponents.Style.buttonBackgroundColorDisabled
-                    width: btnStopNode.width + 40
+                    id: rectStartStopNode
+                    color: MoneroComponents.Style.buttonBackgroundColor
+                    width: btnStartStopNode.width + 40
                     height: 24
                     radius: 2
 
                     Text {
-                        id: btnStopNode
+                        id: btnStartStopNode
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.horizontalCenter: parent.horizontalCenter
                         color: MoneroComponents.Style.defaultFontColor
                         font.family: MoneroComponents.Style.fontRegular.name
                         font.pixelSize: 14 * scaleRatio
                         font.bold: true
-                        text: qsTr("Stop local node") + translationManager.emptyString
+                        text: (appWindow.daemonRunning ? qsTr("Stop local node") : qsTr("Start daemon")) + translationManager.emptyString
                     }
 
                     MouseArea {
                         cursorShape: Qt.PointingHandCursor
                         anchors.fill: parent
                         onClicked: {
-                            appWindow.stopDaemon();
+                            if (appWindow.daemonRunning) {
+                                appWindow.stopDaemon();
+                            } else {
+                                appWindow.startDaemon(persistentSettings.daemonFlags);
+                            }
                         }
                     }
                 }

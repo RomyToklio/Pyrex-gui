@@ -6,7 +6,7 @@ Copyright (c) 2014-2018, The Monero Project
 
 This is a *Inno Setup* script `Pyrexcoin.iss` plus some related files
 that allows you to build a standalone Windows installer (.exe) for
-the GUI wallet that comes with the Lithium Luna release of Monero.
+the GUI wallet that comes with the Beryllium Bullet release of Monero.
 
 This turns the GUI wallet into a more or less standard Windows program,
 by default installed into a subdirectory of `C:\Program Files`, a
@@ -15,13 +15,12 @@ uninstall support. It helps lowering the "barrier to entry"
 somewhat, especially for less technically experienced users of
 Pyrexcoin.
 
-As the setup script in file [Pyrexcoin.iss](Monero.iss) has to list every
+As the setup script in file [Pyrexcoin.iss](Pyrexcoin.iss) has to list every
 single file of the GUI wallet package to install by name,
 this version of the script only works with exactly the GUI wallet
-for Monero release *Lithium Luna* that you find on
-[the official download page](https://pyrexcoin.com/downloads/).
+for Pyrexcoin last release.
 
-But of course it will be easy to modify the script for future
+It should however be easy to modify the script for future
 versions of the GUI wallet.
 
 ## License ##
@@ -32,7 +31,7 @@ See [LICENSE](LICENSE).
 
 You can only build on Windows, and the result is always a
 Windows .exe file that can act as a standalone installer for the
-Lithium Luna GUI wallet.
+Beryllium Bullet GUI wallet.
 
 The build steps in detail:
 
