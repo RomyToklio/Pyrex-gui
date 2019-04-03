@@ -50,6 +50,8 @@ HEADERS += \
     src/libwalletqt/AddressBook.h \
     src/model/SubaddressModel.h \
     src/libwalletqt/Subaddress.h \
+    src/model/SubaddressAccountModel.h \
+    src/libwalletqt/SubaddressAccount.h \
     src/zxcvbn-c/zxcvbn.h \
     src/libwalletqt/UnsignedTransaction.h \
     Logger.h \
@@ -76,6 +78,8 @@ SOURCES += main.cpp \
     src/libwalletqt/AddressBook.cpp \
     src/model/SubaddressModel.cpp \
     src/libwalletqt/Subaddress.cpp \
+    src/model/SubaddressAccountModel.cpp \
+    src/libwalletqt/SubaddressAccount.cpp \
     src/zxcvbn-c/zxcvbn.c \
     src/libwalletqt/UnsignedTransaction.cpp \
     Logger.cpp \
@@ -97,10 +101,13 @@ SOURCES = *.qml \
           components/*.qml \
           pages/*.qml \
           pages/settings/*.qml \
+          pages/merchant/*.qml \
           wizard/*.qml \
           wizard/*js
 }
 
+# Linker flags required by Trezor
+TREZOR_LINKER = $$cat($$WALLET_ROOT/lib/trezor_link_flags.txt)
 
 ios:armv7 {
     message("target is armv7")
@@ -258,7 +265,7 @@ win32 {
         -lIphlpapi \
         -lcrypt32 \
         -lhidapi \
-        -lgdi32
+        -lgdi32 $$TREZOR_LINKER
     
     !contains(QMAKE_TARGET.arch, x86_64) {
         message("Target is 32bit")
@@ -302,7 +309,7 @@ linux {
         -llmdb \
         -lsodium \
         -lhidapi-libusb \
-        -lcrypto
+        -lcrypto $$TREZOR_LINKER
 
     if(!android) {
         LIBS+= \
@@ -343,7 +350,7 @@ macx {
         -lssl \
         -lsodium \
         -lcrypto \
-        -ldl
+        -ldl $$TREZOR_LINKER
 
     QMAKE_LFLAGS += -pie
 }
@@ -424,7 +431,7 @@ RESOURCES += qml.qrc
 CONFIG += qtquickcompiler
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH =
+QML_IMPORT_PATH = fonts
 
 # Default rules for deployment.
 include(deployment.pri)
@@ -455,8 +462,7 @@ OTHER_FILES += \
 
 DISTFILES += \
     notes.txt \
-    Pyrex/src/wallet/CMakeLists.txt \
-    components/MobileHeader.qml
+    Pyrex/src/wallet/CMakeLists.txt
 
 
 # windows application icon

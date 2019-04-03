@@ -31,14 +31,24 @@ import QtQuick.Layouts 1.1
 import QtQuick.Controls 2.0
 import QtQuick.Dialogs 1.2
 
+import "../../js/Wizard.js" as Wizard
 import "../../version.js" as Version
 import "../../components" as MoneroComponents
 
 
 Rectangle {
     color: "transparent"
-    height: 1400
+    height: 1400 * scaleRatio
     Layout.fillWidth: true
+    property string walletModeString: {
+        if(appWindow.walletMode === 0){
+          return qsTr("Simple mode") + translationManager.emptyString;
+        } else if(appWindow.walletMode === 1){
+          return qsTr("Simple mode") + " (bootstrap)" + translationManager.emptyString;
+        } else if(appWindow.walletMode === 2){
+          return qsTr("Advanced mode") + translationManager.emptyString;
+        }
+    }
 
     ColumnLayout {
         id: infoLayout
@@ -46,21 +56,21 @@ Rectangle {
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.right: parent.right
-        anchors.margins: (isMobile)? 17 : 20
+        anchors.margins: (isMobile)? 17 * scaleRatio : 20 * scaleRatio
         anchors.topMargin: 0
-        spacing: 30
+        spacing: 30 * scaleRatio
 
         GridLayout {
             columns: 2
             columnSpacing: 0
 
             MoneroComponents.TextBlock {
-                font.pixelSize: 14
+                font.pixelSize: 14 * scaleRatio
                 text: qsTr("GUI version: ") + translationManager.emptyString
             }
 
             MoneroComponents.TextBlock {
-                font.pixelSize: 14
+                font.pixelSize: 14 * scaleRatio
                 text: Version.GUI_VERSION + " (Qt " + qtRuntimeVersion + ")" + translationManager.emptyString
             }
 
@@ -84,12 +94,12 @@ Rectangle {
 
             MoneroComponents.TextBlock {
                 id: guiMoneroVersion
-                font.pixelSize: 14
+                font.pixelSize: 14 * scaleRatio
                 text: qsTr("Embedded Monero version: ") + translationManager.emptyString
             }
 
             MoneroComponents.TextBlock {
-                font.pixelSize: 14
+                font.pixelSize: 14 * scaleRatio
                 text: Version.GUI_MONERO_VERSION + translationManager.emptyString
             }
 
@@ -113,14 +123,14 @@ Rectangle {
 
             MoneroComponents.TextBlock {
                 Layout.fillWidth: true
-                font.pixelSize: 14
+                font.pixelSize: 14 * scaleRatio
                 text: qsTr("Wallet path: ") + translationManager.emptyString
             }
 
             MoneroComponents.TextBlock {
                 Layout.fillWidth: true
-                Layout.maximumWidth: 360
-                font.pixelSize: 14
+                Layout.maximumWidth: 360 * scaleRatio
+                font.pixelSize: 14 * scaleRatio
                 text: {
                     var wallet_path = walletPath();
                     if(isIOS)
@@ -149,7 +159,7 @@ Rectangle {
 
             MoneroComponents.TextBlock {
                 id: restoreHeight
-                font.pixelSize: 14
+                font.pixelSize: 14 * scaleRatio
                 textFormat: Text.RichText
                 text: (typeof currentWallet == "undefined") ? "" : qsTr("Wallet creation height: ") + translationManager.emptyString
             }
@@ -158,15 +168,24 @@ Rectangle {
                 id: restoreHeightText
                 Layout.fillWidth: true
                 textFormat: Text.RichText
-                font.pixelSize: 14
+                font.pixelSize: 14 * scaleRatio
                 font.bold: true
                 property var style: "<style type='text/css'>a {cursor:pointer;text-decoration: none; color: #FF6C3C}</style>"
                 text: (currentWallet ? currentWallet.walletCreationHeight : "") + style + qsTr(" <a href='#'> (Click to change)</a>") + translationManager.emptyString
                 onLinkActivated: {
-                    inputDialog.labelText = qsTr("Set a new restore height:") + translationManager.emptyString;
+                    inputDialog.labelText = qsTr("Set a new restore height.\nYou can enter a block height or a date (YYYY-MM-DD):") + translationManager.emptyString;
                     inputDialog.inputText = currentWallet ? currentWallet.walletCreationHeight : "0";
                     inputDialog.onAcceptedCallback = function() {
-                        var _restoreHeight = parseInt(inputDialog.inputText);
+                        var _restoreHeight;
+                        if (inputDialog.inputText) {
+                            var restoreHeightText = inputDialog.inputText;
+                            // Parse date string or restore height as integer
+                            if(restoreHeightText.indexOf('-') === 4 && restoreHeightText.length === 10) {
+                                _restoreHeight = Wizard.getApproximateBlockchainHeight(restoreHeightText);
+                            } else {
+                                _restoreHeight = parseInt(restoreHeightText)
+                            }
+                        }
                         if (!isNaN(_restoreHeight)) {
                             if(_restoreHeight >= 0) {
                                 currentWallet.walletCreationHeight = _restoreHeight
@@ -188,7 +207,7 @@ Rectangle {
                                     walletManager.closeWallet();
                                     walletManager.clearWalletCache(persistentSettings.wallet_path);
                                     walletManager.openWalletAsync(persistentSettings.wallet_path, appWindow.walletPassword,
-                                                                      persistentSettings.nettype);
+                                                                      persistentSettings.nettype, persistentSettings.kdfRounds);
                                 }
 
                                 confirmationDialog.onRejectedCallback = null;
@@ -197,7 +216,7 @@ Rectangle {
                             }
                         }
 
-                        appWindow.showStatusMessage(qsTr("Invalid restore height specified. Must be a number."),3);
+                        appWindow.showStatusMessage(qsTr("Invalid restore height specified. Must be a number or a date formatted YYYY-MM-DD"),3);
                     }
                     inputDialog.onRejectedCallback = null;
                     inputDialog.open()
@@ -230,71 +249,73 @@ Rectangle {
 
             MoneroComponents.TextBlock {
                 Layout.fillWidth: true
-                font.pixelSize: 14
+                font.pixelSize: 14 * scaleRatio
                 text: qsTr("Wallet log path: ") + translationManager.emptyString
             }
 
             MoneroComponents.TextBlock {
                 Layout.fillWidth: true
-                font.pixelSize: 14
+                font.pixelSize: 14 * scaleRatio
                 text: walletLogPath
+            }
+
+            Rectangle {
+                height: 1
+                Layout.topMargin: 2 * scaleRatio
+                Layout.bottomMargin: 2 * scaleRatio
+                Layout.fillWidth: true
+                color: MoneroComponents.Style.dividerColor
+                opacity: MoneroComponents.Style.dividerOpacity
+            }
+
+            Rectangle {
+                height: 1
+                Layout.topMargin: 2 * scaleRatio
+                Layout.bottomMargin: 2 * scaleRatio
+                Layout.fillWidth: true
+                color: MoneroComponents.Style.dividerColor
+                opacity: MoneroComponents.Style.dividerOpacity
+            }
+
+            MoneroComponents.TextBlock {
+                Layout.fillWidth: true
+                font.pixelSize: 14 * scaleRatio
+                text: qsTr("Wallet mode: ") + translationManager.emptyString
+            }
+
+            MoneroComponents.TextBlock {
+                Layout.fillWidth: true
+                font.pixelSize: 14 * scaleRatio
+                text: walletModeString
             }
         }
 
         // Copy info to clipboard
-        Rectangle {
-            color: "transparent"
-            Layout.preferredHeight: 24 * scaleRatio
-            Layout.fillWidth: true
+        MoneroComponents.StandardButton {
+            small: true
+            text: qsTr("Copy to clipboard") + translationManager.emptyString
+            onClicked: {
+                var data = "";
+                data += "GUI version: " + Version.GUI_VERSION + " (Qt " + qtRuntimeVersion + ")";
+                data += "\nEmbedded Monero version: " + Version.GUI_MONERO_VERSION;
+                data += "\nWallet path: ";
 
-            Rectangle {
-                id: rectCopy
-                color: MoneroComponents.Style.buttonBackgroundColorDisabled
-                width: btnCopy.width + 40
-                height: 24
-                radius: 2
+                var wallet_path = walletPath();
+                if(isIOS)
+                    wallet_path = moneroAccountsDir + wallet_path;
+                data += wallet_path;
 
-                Text {
-                    id: btnCopy
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    color: MoneroComponents.Style.defaultFontColor
-                    font.family: MoneroComponents.Style.fontRegular.name
-                    font.pixelSize: 14 * scaleRatio
-                    font.bold: true
-                    text: qsTr("Copy to clipboard") + translationManager.emptyString
-                }
+                data += "\nWallet creation height: ";
+                if(currentWallet)
+                    data += currentWallet.walletCreationHeight;
 
-                MouseArea {
-                    cursorShape: Qt.PointingHandCursor
-                    anchors.fill: parent
-                    onClicked: {
-                        var data = "";
-                        data += "GUI version: " + Version.GUI_VERSION + " (Qt " + qtRuntimeVersion + ")";
-                        data += "\nEmbedded Monero version: " + Version.GUI_MONERO_VERSION;
-                        data += "\nWallet path: ";
+                data += "\nWallet log path: " + walletLogPath;
+                data += "\nWallet mode: " + walletModeString;
 
-                        var wallet_path = walletPath();
-                        if(isIOS)
-                            wallet_path = moneroAccountsDir + wallet_path;
-                        data += wallet_path;
-
-                        data += "\nWallet creation height: ";
-                        if(currentWallet)
-                            data += currentWallet.walletCreationHeight;
-
-                        data += "\nWallet log path: " + walletLogPath;
-
-                        console.log("Copied to clipboard");
-                        clipboard.setText(data);
-                        appWindow.showStatusMessage(qsTr("Copied to clipboard"), 3);
-                    }
-                }
+                console.log("Copied to clipboard");
+                clipboard.setText(data);
+                appWindow.showStatusMessage(qsTr("Copied to clipboard"), 3);
             }
         }
-    }
-
-    Component.onCompleted: {
-        
     }
 }

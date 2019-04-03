@@ -35,12 +35,17 @@ ColumnLayout {
     id: item
 
     Layout.fillWidth: true
-    Layout.preferredHeight: childrenRect.height
 
     property alias text: input.text
     property alias labelText: inputLabel.text
     property alias labelButtonText: labelButton.text
     property alias placeholderText: placeholderLabel.text
+
+    property int inputPaddingLeft: 10 * scaleRatio
+    property int inputPaddingRight: 10 * scaleRatio
+    property int inputPaddingTop: 10 * scaleRatio
+    property int inputPaddingBottom: 10 * scaleRatio
+    property int inputRadius: 4
 
     property bool placeholderCenter: false
     property string placeholderFontFamily: MoneroComponents.Style.fontRegular.name
@@ -74,10 +79,17 @@ ColumnLayout {
     property bool mouseSelection: true
     property alias readOnly: input.readOnly
     property bool copyButton: false
-    property bool showingHeader: true
+    property bool pasteButton: false
+    property var onPaste: function(clipboardText) {
+        item.text = clipboardText;
+    }
+    property bool showingHeader: labelText != "" || copyButton || pasteButton
     property var wrapMode: Text.NoWrap
     property alias addressValidation: input.addressValidation
     property string backgroundColor: "" // mock
+
+    property alias inlineButton: inlineButtonId
+    property bool inlineButtonVisible: false
 
     signal labelButtonClicked();
     signal inputLabelLinkActivated();
@@ -109,24 +121,34 @@ ColumnLayout {
             }
         }
 
-        MoneroComponents.LabelButton {
-            id: labelButton
-            onClicked: labelButtonClicked()
-            visible: labelButtonVisible
-        }
+        RowLayout {
+            anchors.right: parent.right
+            spacing: 16 * scaleRatio
 
-        MoneroComponents.LabelButton {
-            id: copyButtonId
-            visible: copyButton && input.text !== ""
-            text: qsTr("Copy")
-            anchors.right: labelButton.visible ? inputLabel.right : parent.right
-            anchors.rightMargin: labelButton.visible? 4 : 0
-            onClicked: {
-                if (input.text.length > 0) {
-                    console.log("Copied to clipboard");
-                    clipboard.setText(input.text);
-                    appWindow.showStatusMessage(qsTr("Copied to clipboard"), 3);
+            MoneroComponents.LabelButton {
+                id: labelButton
+                onClicked: labelButtonClicked()
+                visible: labelButtonVisible
+            }
+
+            MoneroComponents.LabelButton {
+                id: copyButtonId
+                visible: copyButton && input.text !== ""
+                text: qsTr("Copy")
+                onClicked: {
+                    if (input.text.length > 0) {
+                        console.log("Copied to clipboard");
+                        clipboard.setText(input.text);
+                        appWindow.showStatusMessage(qsTr("Copied to clipboard"), 3);
+                    }
                 }
+            }
+
+            MoneroComponents.LabelButton {
+                id: pasteButtonId
+                onClicked: item.onPaste(clipboard.text())
+                text: qsTr("Paste")
+                visible: pasteButton
             }
         }
     }
@@ -135,10 +157,13 @@ ColumnLayout {
         id: input
         readOnly: false
         addressValidation: false
-        anchors.top: item.showingHeader ? inputLabelRect.bottom : item.top
         Layout.fillWidth: true
-        topPadding: item.showingHeader ? 10 * scaleRatio : 0
-        bottomPadding: 10 * scaleRatio
+        
+        leftPadding: item.inputPaddingLeft
+        rightPadding: item.inputPaddingRight
+        topPadding: item.inputPaddingTop
+        bottomPadding: item.inputPaddingBottom
+
         wrapMode: item.wrapMode
         fontSize: item.fontSize
         fontBold: item.fontBold
@@ -166,9 +191,18 @@ ColumnLayout {
             color: "transparent"
             border.width: 1
             border.color: item.borderColor
-            radius: 4
+            radius: item.inputRadius
             anchors.fill: parent
             visible: !item.borderDisabled
+        }
+
+        MoneroComponents.InlineButton {
+            id: inlineButtonId
+            visible: (inlineButtonId.text || inlineButtonId.icon) && inlineButtonVisible ? true : false
+            anchors.right: parent.right
+            anchors.rightMargin: 8 * scaleRatio
+            anchors.top: parent.top
+            anchors.topMargin: 4 * scaleRatio
         }
     }
 }

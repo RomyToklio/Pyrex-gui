@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2018, The Monero Project
+// Copyright (c) 2014-2019, The Monero Project
 //
 // All rights reserved.
 //
@@ -37,10 +37,10 @@ import moneroComponents.Wallet 1.0
 import moneroComponents.PendingTransaction 1.0
 import moneroComponents.NetworkType 1.0
 
-
 import "components"
+import "components" as MoneroComponents
 import "wizard"
-import "../js/Utils.js" as Utils
+import "js/Utils.js" as Utils
 import "js/Windows.js" as Windows
 
 ApplicationWindow {
@@ -48,6 +48,7 @@ ApplicationWindow {
     title: "PyrexCoin"
 
     property var currentItem
+    property bool hideBalanceForced: false
     property bool whatIsEnable: false
     property bool ctrlPressed: false
     property bool rightPanelExpanded: false
@@ -71,17 +72,44 @@ ApplicationWindow {
     property bool qrScannerEnabled: (typeof builtWithScanner != "undefined") && builtWithScanner
     property int blocksToSync: 1
     property var isMobile: (appWindow.width > 700 && !isAndroid) ? false : true
+    property bool isMining: false
+    property int walletMode: persistentSettings.walletMode
     property var cameraUi
     property bool remoteNodeConnected: false
     property bool androidCloseTapped: false;
+    property int userLastActive;  // epoch
     // Default daemon addresses
-    readonly property string localDaemonAddress : persistentSettings.nettype == NetworkType.MAINNET ? "localhost:6870" : persistentSettings.nettype == NetworkType.TESTNET ? "localhost:7870" : "localhost:8870"
+    readonly property string localDaemonAddress : "localhost:" + getDefaultDaemonRpcPort(persistentSettings.nettype)
     property string currentDaemonAddress;
     property bool startLocalNodeCancelled: false
-    property int estimatedBlockchainSize: 50 // GB
+    property int disconnectedEpoch: 0
+    property int estimatedBlockchainSize: 75 // GB
+    property alias viewState: rootItem.state
+
+    property string remoteNodeService: {
+        // support user-defined remote node aggregators
+        if(persistentSettings.remoteNodeService){
+            var service = persistentSettings.remoteNodeService;
+            if(service.charAt(service.length-1) !== "/")
+                service += "/";
+            return service;
+        }
+
+        // monero-gui workgroup maintained
+        if(isWindows)
+            return "http://autonode.xmr.pm/";
+        else
+            return "https://autonode.xmr.pm/"
+    }
 
     // true if wallet ever synchronized
     property bool walletInitialized : false
+
+    // Current selected address / subaddress / (Receive/Account page)
+    property var current_address
+    property var current_address_label: "Primary"
+    property int current_subaddress_table_index: 0
+    property int current_subaddress_account_table_index: 0
 
     function altKeyReleased() { ctrlPressed = false; }
 
@@ -98,8 +126,6 @@ ApplicationWindow {
             return
         }
 
-        // Dashboard is not implemented
-        // if(seq === "Ctrl+") middlePanel.state = "Dashboard"
         if(seq === "Ctrl+S") middlePanel.state = "Transfer"
         else if(seq === "Ctrl+R") middlePanel.state = "Receive"
         else if(seq === "Ctrl+K") middlePanel.state = "TxKey"
@@ -111,10 +137,10 @@ ApplicationWindow {
         else if(seq === "Ctrl+E") middlePanel.state = "Settings"
         else if(seq === "Ctrl+Y") leftPanel.keysClicked()
         else if(seq === "Ctrl+D") middlePanel.state = "Advanced"
+        else if(seq === "Ctrl+T") middlePanel.state = "Account"
         else if(seq === "Ctrl+Tab" || seq === "Alt+Tab") {
             /*
-            if(middlePanel.state === "Dashboard") middlePanel.state = "Transfer"
-            else if(middlePanel.state === "Transfer") middlePanel.state = "Receive"
+            if(middlePanel.state === "Transfer") middlePanel.state = "Receive"
             else if(middlePanel.state === "Receive") middlePanel.state = "TxKey"
             else if(middlePanel.state === "TxKey") middlePanel.state = "SharedRingDB"
             else if(middlePanel.state === "SharedRingDB") middlePanel.state = "History"
@@ -122,9 +148,9 @@ ApplicationWindow {
             else if(middlePanel.state === "AddressBook") middlePanel.state = "Mining"
             else if(middlePanel.state === "Mining") middlePanel.state = "Sign"
             else if(middlePanel.state === "Sign") middlePanel.state = "Settings"
-            else if(middlePanel.state === "Settings") middlePanel.state = "Dashboard"
             */
-            if(middlePanel.state === "Settings") middlePanel.state = "Transfer"
+            if(middlePanel.state === "Settings") middlePanel.state = "Account"
+            else if(middlePanel.state === "Account") middlePanel.state = "Transfer"
             else if(middlePanel.state === "Transfer") middlePanel.state = "AddressBook"
             else if(middlePanel.state === "AddressBook") middlePanel.state = "Receive"
             else if(middlePanel.state === "Receive") middlePanel.state = "History"
@@ -135,7 +161,6 @@ ApplicationWindow {
             else if(middlePanel.state === "Sign") middlePanel.state = "Settings"
         } else if(seq === "Ctrl+Shift+Backtab" || seq === "Alt+Shift+Backtab") {
             /*
-            if(middlePanel.state === "Dashboard") middlePanel.state = "Settings"
             if(middlePanel.state === "Settings") middlePanel.state = "Sign"
             else if(middlePanel.state === "Sign") middlePanel.state = "Mining"
             else if(middlePanel.state === "Mining") middlePanel.state = "AddressBook"
@@ -144,7 +169,6 @@ ApplicationWindow {
             else if(middlePanel.state === "SharedRingDB") middlePanel.state = "TxKey"
             else if(middlePanel.state === "TxKey") middlePanel.state = "Receive"
             else if(middlePanel.state === "Receive") middlePanel.state = "Transfer"
-            else if(middlePanel.state === "Transfer") middlePanel.state = "Dashboard"
             */
             if(middlePanel.state === "Settings") middlePanel.state = "Sign"
             else if(middlePanel.state === "Sign") middlePanel.state = "SharedRingDB"
@@ -154,7 +178,8 @@ ApplicationWindow {
             else if(middlePanel.state === "History") middlePanel.state = "Receive"
             else if(middlePanel.state === "Receive") middlePanel.state = "AddressBook"
             else if(middlePanel.state === "AddressBook") middlePanel.state = "Transfer"
-            else if(middlePanel.state === "Transfer") middlePanel.state = "Settings"
+            else if(middlePanel.state === "Transfer") middlePanel.state = "Account"
+            else if(middlePanel.state === "Account") middlePanel.state = "Settings"
         }
 
         if (middlePanel.state !== "Advanced") updateBalance();
@@ -180,10 +205,12 @@ ApplicationWindow {
         restoreHeight = 0;
         persistentSettings.is_recovering = false
         walletPassword = ""
+        fileDialog.folder = "file://" + moneroAccountsDir
         fileDialog.open();
     }
 
     function initialize() {
+        appWindow.viewState = "normal";
         console.log("initializing..")
 
         // Use stored log level
@@ -207,25 +234,22 @@ ApplicationWindow {
             closeWallet();
             currentWallet = undefined
         } else if (!walletInitialized) {
-
             // set page to transfer if not changing daemon
             middlePanel.state = "Transfer";
             leftPanel.selectItem(middlePanel.state)
-
         }
-
 
         // Local daemon settings
         walletManager.setDaemonAddress(localDaemonAddress)
 
+        // enable timers
+        userInActivityTimer.running = true;
+        simpleModeConnectionTimer.running = true;
 
         // wallet already opened with wizard, we just need to initialize it
         if (typeof wizard.m_wallet !== 'undefined') {
             console.log("using wizard wallet")
             //Set restoreHeight
-            if (persistentSettings.restore_height == 0 && persistentSettings.is_recovering_from_device && walletManager.localDaemonSynced()) {
-                persistentSettings.restore_height = walletManager.blockchainHeight() - 1;
-            }
             if(persistentSettings.restore_height > 0){
                 // We store restore height in own variable for performance reasons.
                 restoreHeight = persistentSettings.restore_height
@@ -243,7 +267,7 @@ ApplicationWindow {
             // console.log("opening wallet at: ", wallet_path, "with password: ", appWindow.walletPassword);
             console.log("opening wallet at: ", wallet_path, ", network type: ", persistentSettings.nettype == NetworkType.MAINNET ? "mainnet" : persistentSettings.nettype == NetworkType.TESTNET ? "testnet" : "stagenet");
             walletManager.openWalletAsync(wallet_path, walletPassword,
-                                              persistentSettings.nettype);
+                                              persistentSettings.nettype, persistentSettings.kdfRounds);
         }
 
         // Hide titlebar based on persistentSettings.customDecorations
@@ -355,8 +379,21 @@ ApplicationWindow {
     function updateBalance() {
         if (!currentWallet)
             return;
-        middlePanel.unlockedBalanceText = leftPanel.unlockedBalanceText =  middlePanel.state === "Receive" ? qsTr("HIDDEN") : walletManager.displayAmount(currentWallet.unlockedBalance(currentWallet.currentSubaddressAccount));
-        middlePanel.balanceText = leftPanel.balanceText = middlePanel.state === "Receive" ? qsTr("HIDDEN") : walletManager.displayAmount(currentWallet.balance(currentWallet.currentSubaddressAccount));
+
+        var balance_unlocked = qsTr("HIDDEN");
+        var balance = qsTr("HIDDEN");
+        if(!hideBalanceForced && !persistentSettings.hideBalance){
+            balance_unlocked = walletManager.displayAmount(currentWallet.unlockedBalance(currentWallet.currentSubaddressAccount));
+            balance = walletManager.displayAmount(currentWallet.balance(currentWallet.currentSubaddressAccount));
+        }
+
+        middlePanel.unlockedBalanceText = balance_unlocked;
+        leftPanel.unlockedBalanceText = balance_unlocked;
+        middlePanel.balanceText = balance;
+        leftPanel.balanceText = balance;
+
+        var accountLabel = currentWallet.getSubaddressLabel(currentWallet.currentSubaddressAccount, 0);
+        leftPanel.balanceLabelText = qsTr("Balance (#%1%2)").arg(currentWallet.currentSubaddressAccount).arg(accountLabel === "" ? "" : (" – " + accountLabel));
     }
 
     function onWalletConnectionStatusChanged(status){
@@ -371,16 +408,19 @@ ApplicationWindow {
         // Update fee multiplier dropdown on transfer page
         middlePanel.transferView.updatePriorityDropdown();
 
-        // If wallet isnt connected and no daemon is running - Ask
-        if(!isMobile && walletManager.isDaemonLocal(appWindow.persistentSettings.daemon_address) && !walletInitialized && status === Wallet.ConnectionStatus_Disconnected && !daemonManager.running(persistentSettings.nettype)){
+        // If wallet isnt connected, advanced wallet mode and no daemon is running - Ask
+        if(!isMobile && appWindow.walletMode >= 2 && walletManager.isDaemonLocal(appWindow.persistentSettings.daemon_address) && !walletInitialized && status === Wallet.ConnectionStatus_Disconnected && !daemonManager.running(persistentSettings.nettype)){
             daemonManagerDialog.open();
         }
         // initialize transaction history once wallet is initialized first time;
         if (!walletInitialized) {
             currentWallet.history.refresh(currentWallet.currentSubaddressAccount)
             walletInitialized = true
+
+            // check if daemon was already mining and add mining logo if true
+            middlePanel.miningView.update();
         }
-     }
+    }
 
     function onWalletOpened(wallet) {
         walletName = usefulName(wallet.path)
@@ -393,6 +433,7 @@ ApplicationWindow {
             passwordDialog.onRejectedCallback = function() {
                 walletPassword = "";
                 //appWindow.enableUI(false)
+                wizard.wizardState = "wizardHome";
                 rootItem.state = "wizard";
             }
             // opening with password but password doesn't match
@@ -405,6 +446,9 @@ ApplicationWindow {
 
         // wallet opened successfully, subscribing for wallet updates
         connectWallet(wallet)
+
+        // Force switch normal view
+        rootItem.state = "normal";
     }
 
 
@@ -506,6 +550,9 @@ ApplicationWindow {
         // Pause refresh while starting daemon
         currentWallet.pauseRefresh();
 
+        // Pause simplemode connection timer
+        simpleModeConnectionTimer.stop();
+
         appWindow.showProcessingSplash(qsTr("Waiting for daemon to start..."))
         daemonManager.start(flags, persistentSettings.nettype, persistentSettings.blockchainDataDir, persistentSettings.bootstrapNodeAddress);
         persistentSettings.daemonFlags = flags
@@ -523,6 +570,8 @@ ApplicationWindow {
         currentWallet.connected(true);
         // resume refresh
         currentWallet.startRefresh();
+        // resume simplemode connection timer
+        simpleModeConnectionTimer.start();
     }
     function onDaemonStopped(){
         console.log("daemon stopped");
@@ -857,12 +906,11 @@ ApplicationWindow {
                 informationPopup.text = qsTr("Bad signature");
                 informationPopup.icon = StandardIcon.Critical;
             } else if (received > 0) {
-                received = received / 1e12
                 if (in_pool) {
-                    informationPopup.text = qsTr("This address received %1 pyrexcoin, but the transaction is not yet mined").arg(received);
+                    informationPopup.text = qsTr("This address received %1 pyrexcoin, but the transaction is not yet mined").arg(walletManager.displayAmount(received));
                 }
                 else {
-                    informationPopup.text = qsTr("This address received %1 pyrexcoin, with %2 confirmation(s).").arg(received).arg(confirmations);
+                    informationPopup.text = qsTr("This address received %1 pyrexcoin, with %2 confirmation(s).").arg(walletManager.displayAmount(received)).arg(confirmations);
                 }
             }
             else {
@@ -913,13 +961,18 @@ ApplicationWindow {
 
     // close wallet and show wizard
     function showWizard(){
+        clearMoneroCardLabelText();
         walletInitialized = false;
         closeWallet();
         currentWallet = undefined;
         wizard.restart();
+        wizard.wizardState = "wizardHome";
         rootItem.state = "wizard"
         // reset balance
         leftPanel.balanceText = leftPanel.unlockedBalanceText = walletManager.displayAmount(0);
+        // disable timers
+        userInActivityTimer.running = false;
+        simpleModeConnectionTimer.running = false;
     }
 
     function hideMenu() {
@@ -981,6 +1034,7 @@ ApplicationWindow {
                 initialize(persistentSettings);
             }
             passwordDialog.onRejectedCallback = function() {
+                wizard.wizardState = "wizardHome";
                 rootItem.state = "wizard"
             }
             passwordDialog.open(usefulName(walletPath()))
@@ -1007,9 +1061,10 @@ ApplicationWindow {
         property bool   allow_background_mining : false
         property bool   miningIgnoreBattery : true
         property var    nettype: NetworkType.MAINNET
-        property string daemon_address: nettype == NetworkType.TESTNET ? "localhost:7870" : nettype == NetworkType.STAGENET ? "localhost:8870" : "localhost:6870"
+        property string daemon_address: "localhost:" + getDefaultDaemonRpcPort(nettype)
         property string payment_id
         property int    restore_height : 0
+        property bool   is_trusted_daemon : false
         property bool   is_recovering : false
         property bool   is_recovering_from_device : false
         property bool   customDecorations : true
@@ -1019,13 +1074,22 @@ ApplicationWindow {
         property string daemonUsername: ""
         property string daemonPassword: ""
         property bool transferShowAdvanced: false
+        property bool receiveShowAdvanced: false
         property string blockchainDataDir: ""
         property bool useRemoteNode: false
         property string remoteNodeAddress: ""
         property string bootstrapNodeAddress: ""
+        property string remoteNodeRegion: ""
         property bool segregatePreForkOutputs: true
         property bool keyReuseMitigation2: true
         property int segregationHeight: 0
+        property int kdfRounds: 1
+        property bool hideBalance: false
+        property bool lockOnUserInActivity: true
+        property int walletMode: 2
+        property string remoteNodeService: ""
+        property int lockOnUserInActivityInterval: 10  // minutes
+        property bool showPid: false
     }
 
     // Information dialog
@@ -1086,11 +1150,11 @@ ApplicationWindow {
     //Open Wallet from file
     FileDialog {
         id: fileDialog
-        title: "Please choose a file"
-        folder: "file://" +moneroAccountsDir
+        title: qsTr("Please choose a file")
+        folder: "file://" + moneroAccountsDir
         nameFilters: [ "Wallet files (*.keys)"]
         sidebarVisible: false
-
+        visible: false
 
         onAccepted: {
             persistentSettings.wallet_path = walletManager.urlToLocalPath(fileDialog.fileUrl)
@@ -1105,7 +1169,8 @@ ApplicationWindow {
                 initialize();
             }
             passwordDialog.onRejectedCallback = function() {
-                console.log("Canceled")
+                console.log("Canceled");
+                wizard.wizardState = "wizardHome";
                 rootItem.state = "wizard";
             }
             passwordDialog.open(usefulName(walletPath()));
@@ -1120,26 +1185,30 @@ ApplicationWindow {
     // Choose blockchain folder
     FileDialog {
         id: blockchainFileDialog
+        property string directory: ""
+        signal changed();
+
         title: "Please choose a folder"
         selectFolder: true
         folder: "file://" + persistentSettings.blockchainDataDir
 
+        onRejected: console.log("data dir selection canceled")
         onAccepted: {
             var dataDir = walletManager.urlToLocalPath(blockchainFileDialog.fileUrl)
             var validator = daemonManager.validateDataDir(dataDir);
-            if(!validator.valid) {
-
+            if(validator.valid) {
+                persistentSettings.blockchainDataDir = dataDir;
+            } else {
                 confirmationDialog.title = qsTr("Warning") + translationManager.emptyString;
                 confirmationDialog.text = "";
                 if(validator.readOnly)
                     confirmationDialog.text  += qsTr("Error: Filesystem is read only") + "\n\n"
-                if(validator.storageAvailable < 20)
+                if(validator.storageAvailable < estimatedBlockchainSize)
                     confirmationDialog.text  += qsTr("Warning: There's only %1 GB available on the device. Blockchain requires ~%2 GB of data.").arg(validator.storageAvailable).arg(estimatedBlockchainSize) + "\n\n"
                 else
                     confirmationDialog.text  += qsTr("Note: There's %1 GB available on the device. Blockchain requires ~%2 GB of data.").arg(validator.storageAvailable).arg(estimatedBlockchainSize) + "\n\n"
                 if(!validator.lmdbExists)
                     confirmationDialog.text  += qsTr("Note: lmdb folder not found. A new folder will be created.") + "\n\n"
-
 
                 confirmationDialog.icon = StandardIcon.Question
                 confirmationDialog.cancelText = qsTr("Cancel")
@@ -1150,24 +1219,14 @@ ApplicationWindow {
                 }
 
                 // Cancel
-                confirmationDialog.onRejectedCallback = function() {
-                };
-
+                confirmationDialog.onRejectedCallback = function() { };
                 confirmationDialog.open()
-            } else {
-                persistentSettings.blockchainDataDir = dataDir
             }
 
+            blockchainFileDialog.directory = blockchainFileDialog.fileUrl;
             delete validator;
-
-
         }
-        onRejected: {
-            console.log("data dir selection canceled")
-        }
-
     }
-
 
     PasswordDialog {
         id: passwordDialog
@@ -1229,6 +1288,7 @@ ApplicationWindow {
     DaemonManagerDialog {
         id: daemonManagerDialog
         onRejected: {
+            middlePanel.settingsView.settingsStateViewState = "Node";
             loadPage("Settings");
             startLocalNodeCancelled = true
         }
@@ -1256,17 +1316,16 @@ ApplicationWindow {
                 PropertyChanges { target: leftPanel; visible: false }
                 PropertyChanges { target: rightPanel; visible: false }
                 PropertyChanges { target: middlePanel; visible: false }
-                PropertyChanges { target: titleBar; basicButtonVisible: false }
                 PropertyChanges { target: wizard; visible: true }
-                PropertyChanges { target: appWindow; width: (screenWidth < 930 || isAndroid || isIOS)? screenWidth : 930; }
+                PropertyChanges { target: appWindow; width: (screenWidth < 969 || isAndroid || isIOS)? screenWidth : 969 } //rightPanelExpanded ? 1269 : 1269 - 300;
                 PropertyChanges { target: appWindow; height: maxWindowHeight; }
                 PropertyChanges { target: resizeArea; visible: true }
-                PropertyChanges { target: titleBar; showMaximizeButton: false }
 //                PropertyChanges { target: frameArea; blocked: true }
-                PropertyChanges { target: titleBar; visible: false }
-                PropertyChanges { target: titleBar; y: 0 }
-                PropertyChanges { target: titleBar; title: qsTr("Program setup wizard") + translationManager.emptyString }
                 PropertyChanges { target: mobileHeader; visible: false }
+                PropertyChanges { target: titleBar; basicButtonVisible: false }
+                PropertyChanges { target: titleBar; showMaximizeButton: true }
+                PropertyChanges { target: titleBar; visible: true }
+                PropertyChanges { target: titleBar; title: qsTr("Monero") + translationManager.emptyString }
             }, State {
                 name: "normal"
                 PropertyChanges { target: leftPanel; visible: (isMobile)? false : true }
@@ -1318,14 +1377,6 @@ ApplicationWindow {
             anchors.top: mobileHeader.bottom
             anchors.left: parent.left
             anchors.bottom: parent.bottom
-            onDashboardClicked: {
-                middlePanel.state = "Dashboard";
-                middlePanel.flickable.contentY = 0;
-                if(isMobile) {
-                    hideMenu();
-                }
-                updateBalance();
-            }
 
             onTransferClicked: {
                 middlePanel.state = "Transfer";
@@ -1338,6 +1389,15 @@ ApplicationWindow {
 
             onReceiveClicked: {
                 middlePanel.state = "Receive";
+                middlePanel.flickable.contentY = 0;
+                if(isMobile) {
+                    hideMenu();
+                }
+                updateBalance();
+            }
+
+            onMerchantClicked: {
+                middlePanel.state = "Merchant";
                 middlePanel.flickable.contentY = 0;
                 if(isMobile) {
                     hideMenu();
@@ -1409,6 +1469,15 @@ ApplicationWindow {
             }
 
             onKeysClicked: Utils.showSeedPage();
+            
+            onAccountClicked: {
+                middlePanel.state = "Account";
+                middlePanel.flickable.contentY = 0;
+                if(isMobile) {
+                    hideMenu();
+                }
+                updateBalance();
+            }
         }
 
         RightPanel {
@@ -1530,23 +1599,26 @@ ApplicationWindow {
 //            }
         }
 
-        WizardMain {
+        WizardController {
             id: wizard
             anchors.fill: parent
             onUseMoneroClicked: {
-                rootItem.state = "normal" // TODO: listen for this state change in appWindow;
+                rootItem.state = "normal";
                 appWindow.initialize();
             }
-            onOpenWalletFromFileClicked: {
-                rootItem.state = "normal" // TODO: listen for this state change in appWindow;
-                appWindow.openWalletFromFile();
-            }
+        }
+
+        WizardLang {
+            id: languageView
+            visible: false
+            anchors.fill: parent
         }
 
         property int minWidth: 326
         property int minHeight: 400
         MouseArea {
             id: resizeArea
+            enabled: persistentSettings.customDecorations
             hoverEnabled: true
             anchors.right: parent.right
             anchors.bottom: parent.bottom
@@ -1560,6 +1632,7 @@ ApplicationWindow {
 
             Image {
                 anchors.centerIn: parent
+                visible: persistentSettings.customDecorations
                 source: parent.containsMouse || parent.pressed ? "images/resizeHovered.png" :
                                                                  "images/resize.png"
             }
@@ -1669,6 +1742,17 @@ ApplicationWindow {
         }
     }
 
+    function toggleLanguageView(){
+        middlePanel.visible = !middlePanel.visible;
+        languageView.visible = !languageView.visible
+        resetLanguageFields()
+        // update after changing language from settings page
+        if (persistentSettings.language != wizard.language_language) {
+            persistentSettings.language = wizard.language_language
+            persistentSettings.locale   = wizard.language_locale
+        }
+    }
+
     // TODO: Make the callback dynamic
     Timer {
         id: statusMessageTimer
@@ -1677,6 +1761,56 @@ ApplicationWindow {
         repeat: false
         onTriggered: resetAndroidClose()
         triggeredOnStart: false
+    }
+
+    Timer {
+        id: userInActivityTimer
+        interval: 2000; running: false; repeat: true
+        onTriggered: checkInUserActivity()
+    }
+
+    function checkSimpleModeConnection(){
+        // auto-connection mechanism for simple mode
+        if(persistentSettings.nettype != NetworkType.MAINNET) return;
+        if(appWindow.walletMode >= 2) return;
+
+        var disconnected = leftPanel.networkStatus.connected === Wallet.ConnectionStatus_Disconnected;
+        var disconnectedEpoch = appWindow.disconnectedEpoch;
+        if(disconnectedEpoch === 0){
+            appWindow.disconnectedEpoch = Utils.epoch();
+        }
+
+        // disconnected longer than 5 seconds?
+        if(disconnected && disconnectedEpoch > 0 && (Utils.epoch() - disconnectedEpoch) >= 5){
+            // for bootstrap mode, first wait until daemon is killed
+            if(appWindow.walletMode === 1 && appWindow.daemonRunning) {
+                appWindow.stopDaemon();
+                return;
+            }
+
+            // fetch new node list
+            wizard.fetchRemoteNodes(function() {
+                // fetched node, connect
+                if(appWindow.walletMode === 0){
+                    appWindow.connectRemoteNode();
+                } else if(appWindow.walletMode === 1){
+                    appWindow.startDaemon(persistentSettings.daemonFlags);
+                }
+
+                // reset state
+                appWindow.disconnectedEpoch = 0;
+                return;
+            }, function(){
+                appWindow.showStatusMessage(qsTr("Failed to fetch remote nodes from third-party server."), simpleModeConnectionTimer.interval / 1000);
+            });
+        }
+    }
+
+    Timer {
+        // Simple mode connection check timer
+        id: simpleModeConnectionTimer
+        interval: 2000; running: false; repeat: true
+        onTriggered: appWindow.checkSimpleModeConnection()
     }
 
     Rectangle {
@@ -1791,6 +1925,15 @@ ApplicationWindow {
         onTriggered: checkUpdates()
     }
 
+    function titlebarToggleOrange(flag){
+        // toggle titlebar orange style
+        if(flag !== undefined){
+            titleBar.orange = flag;
+        } else {
+            titleBar.orange = !titleBar.orange;
+        }
+    }
+
     function releaseFocus() {
         // Workaround to release focus from textfield when scrolling (https://bugreports.qt.io/browse/QTBUG-34867)
         if(isAndroid) {
@@ -1798,6 +1941,64 @@ ApplicationWindow {
             middlePanel.focus = true
             middlePanel.focus = false
         }
+    }
+
+    // reset label text. othewise potential privacy leak showing unlock time when switching wallets
+    function clearMoneroCardLabelText(){
+        leftPanel.minutesToUnlockTxt = qsTr("Unlocked balance")
+        leftPanel.balanceLabelText = qsTr("Balance")
+    }
+
+    // some fields need an extra nudge when changing languages
+    function resetLanguageFields(){
+        clearMoneroCardLabelText()
+        onWalletRefresh()
+    }
+
+    function userActivity() {
+        // register user activity
+        var epoch = Math.floor((new Date).getTime()/1000);
+        appWindow.userLastActive = epoch;
+    }
+
+    function checkInUserActivity() {
+        if(rootItem.state !== "normal") return;
+        if(!persistentSettings.lockOnUserInActivity) return;
+
+        // prompt password after X seconds of inactivity
+        var epoch = Math.floor((new Date).getTime() / 1000);
+        var inactivity = epoch - appWindow.userLastActive;
+        if(inactivity < (persistentSettings.lockOnUserInActivityInterval * 60)) return;
+
+        passwordDialog.onAcceptedCallback = function() {
+            if(walletPassword === passwordDialog.password){
+                passwordDialog.close();
+            } else {
+                passwordDialog.showError(qsTr("Wrong password"));
+            }
+        }
+
+        passwordDialog.onRejectedCallback = function() { appWindow.showWizard(); }
+        passwordDialog.open();
+    }
+
+    function getDefaultDaemonRpcPort(networkType) {
+        switch (networkType) {
+            case NetworkType.STAGENET:
+                return 38081;
+            case NetworkType.TESTNET:
+                return 28081;
+            default:
+                return 18081;
+        }
+    }
+
+    function changeWalletMode(mode){
+        appWindow.walletMode = mode;
+        persistentSettings.walletMode = mode;
+        persistentSettings.useRemoteNode = mode === 0 ? true : false;
+
+        console.log("walletMode changed: " + (mode === 0 ? "simple": mode === 1 ? "simple (bootstrap)" : "Advanced"));
     }
 
     // Daemon console
@@ -1819,4 +2020,9 @@ ApplicationWindow {
         color: "black"
         opacity: 0.8
     }
+
+// @TODO: QML type 'Drawer' has issues with buildbot; debug after Qt 5.9 migration
+//    MoneroComponents.LanguageSidebar {
+//        id: languageSidebar
+//    }
 }

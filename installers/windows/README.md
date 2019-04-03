@@ -1,6 +1,6 @@
 # Pyrexcoin GUI Wallet Windows Installer #
 
-Copyright (c) 2014-2018, The Monero Project
+Copyright (c) 2017-2019, The Monero Project
 
 ## Introduction ##
 
@@ -31,7 +31,7 @@ See [LICENSE](LICENSE).
 
 You can only build on Windows, and the result is always a
 Windows .exe file that can act as a standalone installer for the
-Beryllium Bullet GUI wallet.
+Boron Butterfly GUI wallet.
 
 The build steps in detail:
 

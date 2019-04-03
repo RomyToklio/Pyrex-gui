@@ -33,15 +33,22 @@ import "../components" as MoneroComponents
 
 Item {
     id: inlineButton
-    height: rect.height * scaleRatio
+    height: parent.height
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+
+    property bool small: false
     property string shadowPressedColor: "#B32D00"
     property string shadowReleasedColor: "#FF4304"
     property string pressedColor: "#FF4304"
     property string releasedColor: "#FF6C3C"
     property string icon: ""
     property string textColor: "#FFFFFF"
-    property int fontSize: 12 * scaleRatio
+    property int fontSize: small ? 14 * scaleRatio : 16 * scaleRatio
+    property int rectHeight: small ? 24 * scaleRatio : 28 * scaleRatio
+    property int rectHMargin: small ? 16 * scaleRatio : 22 * scaleRatio
     property alias text: inlineText.text
+    property alias buttonColor: rect.color
     signal clicked()
 
     function doClick() {
@@ -55,20 +62,27 @@ Item {
         color: MoneroComponents.Style.buttonBackgroundColorDisabled
         border.color: "black"
         height: 28 * scaleRatio
-        width: inlineText.width + 22 * scaleRatio
+        width: inlineText.text ? (inlineText.width + 22) * scaleRatio : inlineButton.icon ? (inlineImage.width + 16) * scaleRatio : rect.height
         radius: 4
 
-        anchors.top: parent.top
+        anchors.verticalCenter: parent.verticalCenter
         anchors.right: parent.right
 
         Text {
             id: inlineText
             font.family: MoneroComponents.Style.fontBold.name
             font.bold: true
-            font.pixelSize: 16 * scaleRatio
+            font.pixelSize: inlineButton.fontSize
             color: "black"
             anchors.verticalCenter: parent.verticalCenter
             anchors.horizontalCenter: parent.horizontalCenter
+        }
+
+        Image {
+            id: inlineImage
+            visible: inlineButton.icon !== ""
+            anchors.centerIn: parent
+            source: inlineButton.icon
         }
 
         MouseArea {
@@ -78,12 +92,12 @@ Item {
             anchors.fill: parent
             onClicked: doClick()
             onEntered: {
-                rect.color = "#707070";
+                rect.color = buttonColor ? buttonColor : "#707070";
                 rect.opacity = 0.8;
             }
             onExited: {
                 rect.opacity = 1.0;
-                rect.color = "#808080";
+                rect.color = buttonColor ? buttonColor : "#808080";
             }
         }
     }

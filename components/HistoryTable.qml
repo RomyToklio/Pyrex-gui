@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2018, The Monero Project
+// Copyright (c) 2014-2019, The Monero Project
 // 
 // All rights reserved.
 // 
@@ -41,16 +41,18 @@ ListView {
     property int rowSpacing: 12
     property var addressBookModel: null
 
-    function buildTxDetailsString(tx_id, paymentId, tx_key,tx_note, destinations, rings) {
+    function buildTxDetailsString(tx_id, paymentId, tx_key,tx_note, destinations, rings, address, address_label) {
         var trStart = '<tr><td width="85" style="padding-top:5px"><b>',
             trMiddle = '</b></td><td style="padding-left:10px;padding-top:5px;">',
             trEnd = "</td></tr>";
 
         return '<table border="0">'
             + (tx_id ? trStart + qsTr("Tx ID:") + trMiddle + tx_id + trEnd : "")
-            + (paymentId ? trStart + qsTr("Payment ID:") + trMiddle + paymentId  + trEnd : "")
+            + (address_label ? trStart + qsTr("Address label:") + trMiddle + address_label + trEnd : "")
+            + (address ? trStart + qsTr("Address:") + trMiddle + address + trEnd : "")
+            + (paymentId ? trStart + qsTr("Payment ID:") + trMiddle + paymentId + trEnd : "")
             + (tx_key ? trStart + qsTr("Tx key:") + trMiddle + tx_key + trEnd : "")
-            + (tx_note ? trStart + qsTr("Tx note:") + trMiddle + tx_note  + trEnd : "")
+            + (tx_note ? trStart + qsTr("Tx note:") + trMiddle + tx_note + trEnd : "")
             + (destinations ? trStart + qsTr("Destinations:") + trMiddle + destinations + trEnd : "")
             + (rings ? trStart + qsTr("Rings:") + trMiddle + rings + trEnd : "")
             + "</table>"
@@ -138,9 +140,9 @@ ListView {
 
             Image {
                 id: arrowImage
-                source: isOut ? "../images/downArrow.png" : "../images/upArrow-green.png"
+                source: isOut ? "../images/downArrow.png" : confirmationsRequired === 60  ? "../images/miningxmr.png" : "../images/upArrow-green.png"
                 height: 18 * scaleRatio
-                width: 12 * scaleRatio
+                width: (confirmationsRequired === 60  ? 18 : 12) * scaleRatio
                 anchors.top: parent.top
                 anchors.topMargin: 12 * scaleRatio
             }
@@ -175,7 +177,23 @@ ListView {
 
                     return _amount + " PYX";
                 }
-                color: isOut ? "white" : "#2eb358"
+                color: isOut ? MoneroComponents.Style.white : MoneroComponents.Style.green
+
+                MouseArea {
+                        hoverEnabled: true
+                        anchors.fill: parent
+                        cursorShape: Qt.PointingHandCursor
+                        onEntered: {
+                            parent.color = MoneroComponents.Style.orange
+                        }
+                        onExited: {
+                            parent.color = isOut ? MoneroComponents.Style.white : MoneroComponents.Style.green                        }
+                        onClicked: {
+                                console.log("Copied to clipboard");
+                                clipboard.setText(parent.text.split(" ")[0]);
+                                appWindow.showStatusMessage(qsTr("Copied to clipboard"),3)
+                        }
+                    }
             }
 
             Rectangle {
@@ -198,7 +216,7 @@ ListView {
                     anchors.left: dateLabel.right
                     anchors.leftMargin: 7 * scaleRatio
                     anchors.top: parent.top
-                    anchors.topMargin: 3 * scaleRatio
+                    anchors.topMargin: 1 * scaleRatio
                     font.pixelSize: 12 * scaleRatio
                     text: time
                     color: "#808080"
@@ -293,7 +311,7 @@ ListView {
                 anchors.left: parent.left
                 anchors.leftMargin: 30 * scaleRatio
 
-                labelHeader: QsTr("Transaction ID") + translationManager.emptyString
+                labelHeader: qsTr("Transaction ID") + translationManager.emptyString
                 labelValue: hash.substring(0, 18) + "..."
                 copyValue: hash
             }
@@ -353,19 +371,20 @@ ListView {
                         return qsTr("FAILED") + translationManager.emptyString
                     return qsTr("PENDING") + translationManager.emptyString
                 }
-                copyValue: labelValue
+                copyValue: labelValue.indexOf(" ") > 0 ? labelValue.slice(0, labelValue.indexOf(" ")) : labelValue
             }
 
             // right column
             MoneroComponents.HistoryTableInnerColumn {
-                visible: currentWallet.getUserNote(hash)
                 anchors.right: parent.right
                 anchors.rightMargin: 80 * scaleRatio
                 width: 220 * scaleRatio
                 height: parent.height
                 color: "transparent"
+                hashValue: hash
+                labelHeader: qsTr("Description") + translationManager.emptyString
+                labelHeaderIconImageSource: "../images/editIcon.png"
 
-                labelHeader: qsTr("Description")
                 labelValue: {
                     var note = currentWallet.getUserNote(hash);
                     if(note){
@@ -375,9 +394,10 @@ ListView {
                             return note;
                         }
                     } else {
-                        return "";
+                        return qsTr("None") + translationManager.emptyString;
                     }
                 }
+
                 copyValue: {
                     return currentWallet.getUserNote(hash);
                 }
@@ -452,10 +472,12 @@ ListView {
                         var tx_key = currentWallet.getTxKey(hash)
                         var tx_note = currentWallet.getUserNote(hash)
                         var rings = currentWallet.getRings(hash)
+                        var address_label = subaddrIndex == 0 ? qsTr("Primary address") : currentWallet.getSubaddressLabel(subaddrAccount, subaddrIndex)
+                        var address = currentWallet.address(subaddrAccount, subaddrIndex)
                         if (rings)
                             rings = rings.replace(/\|/g, '\n')
                         informationPopup.title = "Transaction details";
-                        informationPopup.content = buildTxDetailsString(hash,paymentId,tx_key,tx_note,destinations, rings);
+                        informationPopup.content = buildTxDetailsString(hash,paymentId,tx_key,tx_note,destinations, rings, address, address_label);
                         informationPopup.onCloseCallback = null
                         informationPopup.open();
                     }

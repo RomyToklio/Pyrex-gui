@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2018, The Monero Project
+// Copyright (c) 2014-2019, The Monero Project
 // 
 // All rights reserved.
 // 
@@ -39,7 +39,7 @@ Rectangle{
     /* main layout */
     ColumnLayout {
         id: root
-        anchors.margins: (isMobile)? 17 : 20
+        anchors.margins: (isMobile)? 17 * scaleRatio : 20 * scaleRatio
         anchors.topMargin: 0
 
         anchors.left: parent.left
@@ -131,6 +131,7 @@ Rectangle{
                     topPadding: 0
                     text: qsTr("The blockchain is downloaded to your computer. Provides higher security and requires more local storage.") + translationManager.emptyString
                     width: parent.width - (localNodeIcon.width + localNodeIcon.anchors.leftMargin + anchors.leftMargin)
+                    readOnly: true
 
                     // @TODO: Legacy. Remove after Qt 5.8.
                     // https://stackoverflow.com/questions/41990013
@@ -231,6 +232,7 @@ Rectangle{
                     topPadding: 0
                     text: qsTr("Uses a third-party server to connect to the Monero network. Less secure, but easier on your computer.") + translationManager.emptyString
                     width: parent.width - (remoteNodeIcon.width + remoteNodeIcon.anchors.leftMargin + anchors.leftMargin)
+                    readOnly: true
 
                     // @TODO: Legacy. Remove after Qt 5.8.
                     // https://stackoverflow.com/questions/41990013
@@ -293,13 +295,16 @@ Rectangle{
 
                 property var rna: persistentSettings.remoteNodeAddress
                 daemonAddrText: rna.search(":") != -1 ? rna.split(":")[0].trim() : ""
-                daemonPortText: rna.search(":") != -1 ? (rna.split(":")[1].trim() == "") ? "18081" : rna.split(":")[1] : ""
+                daemonPortText: rna.search(":") != -1 ? (rna.split(":")[1].trim() == "") ? appWindow.getDefaultDaemonRpcPort(persistentSettings.nettype) : rna.split(":")[1] : ""
                 onEditingFinished: {
                     persistentSettings.remoteNodeAddress = remoteNodeEdit.getAddress();
-                    console.log("setting remote node to " + persistentSettings.remoteNodeAddress)
-                }
-                onTextChanged: {
-                    rectConnectRemote.enabled = remoteNodeEdit.isValid();
+                    console.log("setting remote node to " + persistentSettings.remoteNodeAddress);
+                    if (persistentSettings.is_trusted_daemon) {
+                        persistentSettings.is_trusted_daemon = !persistentSettings.is_trusted_daemon
+                        currentWallet.setTrustedDaemon(persistentSettings.is_trusted_daemon)
+                        setTrustedDaemonCheckBox.checked = !setTrustedDaemonCheckBox.checked
+                        appWindow.showStatusMessage(qsTr("Remote node updated. Trusted daemon has been reset. Mark again, if desired."), 8);
+                    }
                 }
             }
 
@@ -331,89 +336,50 @@ Rectangle{
                 }
             }
 
-            Rectangle {
-                id: rectConnectRemote
-                Layout.topMargin: 12 * scaleRatio
-                enabled: remoteNodeEdit.isValid()
-                color: enabled ? MoneroComponents.Style.buttonBackgroundColor : MoneroComponents.Style.buttonBackgroundColorDisabled
-                width: btnConnectRemote.width + 40
-                height: 26
-                radius: 2
-
-                Text {
-                    id: btnConnectRemote
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    color: MoneroComponents.Style.defaultFontColor
-                    font.family: MoneroComponents.Style.fontRegular.name
-                    font.pixelSize: 14 * scaleRatio
-                    font.bold: true
-                    text: qsTr("Connect") + translationManager.emptyString
+            MoneroComponents.CheckBox {
+                id: setTrustedDaemonCheckBox
+                checked: persistentSettings.is_trusted_daemon
+                onClicked: {
+                    persistentSettings.is_trusted_daemon = !persistentSettings.is_trusted_daemon
+                    currentWallet.setTrustedDaemon(persistentSettings.is_trusted_daemon)
                 }
+                text: qsTr("Mark as Trusted Daemon") + translationManager.emptyString
+            }
 
-                MouseArea {
-                    cursorShape: Qt.PointingHandCursor
-                    visible: rectConnectRemote.enabled
-                    anchors.fill: parent
-                    onClicked: {
-                        // Update daemon login
-                        persistentSettings.remoteNodeAddress = remoteNodeEdit.getAddress();
-                        persistentSettings.daemonUsername = daemonUsername.text;
-                        persistentSettings.daemonPassword = daemonPassword.text;
-                        persistentSettings.useRemoteNode = true
-    
-                        currentWallet.setDaemonLogin(persistentSettings.daemonUsername, persistentSettings.daemonPassword);
-    
-                        appWindow.connectRemoteNode()
-                    }
+            MoneroComponents.StandardButton {
+                id: btnConnectRemote
+                enabled: remoteNodeEdit.isValid()
+                small: true
+                text: qsTr("Connect") + translationManager.emptyString
+                onClicked: {
+                    // Update daemon login
+                    persistentSettings.remoteNodeAddress = remoteNodeEdit.getAddress();
+                    persistentSettings.daemonUsername = daemonUsername.text;
+                    persistentSettings.daemonPassword = daemonPassword.text;
+                    persistentSettings.useRemoteNode = true
+
+                    currentWallet.setDaemonLogin(persistentSettings.daemonUsername, persistentSettings.daemonPassword);
+
+                    appWindow.connectRemoteNode()
                 }
             }
         }
 
         ColumnLayout {
             id: localNodeLayout
-            anchors.margins: 0
             spacing: 20 * scaleRatio
             Layout.topMargin: 40
-            anchors.left: parent.left
-            anchors.right: parent.right
             visible: !isMobile && !persistentSettings.useRemoteNode
 
-            Rectangle {
-                color: "transparent"
-                Layout.topMargin: 0 * scaleRatio
-                Layout.bottomMargin: 8 * scaleRatio
-                Layout.preferredHeight: 24 * scaleRatio
-                Layout.preferredWidth: parent.width
-
-                Rectangle {
-                    id: rectStartStopNode
-                    color: MoneroComponents.Style.buttonBackgroundColor
-                    width: btnStartStopNode.width + 40
-                    height: 24
-                    radius: 2
-
-                    Text {
-                        id: btnStartStopNode
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        color: MoneroComponents.Style.defaultFontColor
-                        font.family: MoneroComponents.Style.fontRegular.name
-                        font.pixelSize: 14 * scaleRatio
-                        font.bold: true
-                        text: (appWindow.daemonRunning ? qsTr("Stop local node") : qsTr("Start daemon")) + translationManager.emptyString
-                    }
-
-                    MouseArea {
-                        cursorShape: Qt.PointingHandCursor
-                        anchors.fill: parent
-                        onClicked: {
-                            if (appWindow.daemonRunning) {
-                                appWindow.stopDaemon();
-                            } else {
-                                appWindow.startDaemon(persistentSettings.daemonFlags);
-                            }
-                        }
+            MoneroComponents.StandardButton {
+                small: true
+                text: (appWindow.daemonRunning ? qsTr("Stop local node") : qsTr("Start daemon")) + translationManager.emptyString
+                onClicked: {
+                    if (appWindow.daemonRunning) {
+                        appWindow.stopDaemon();
+                    } else {
+                        persistentSettings.daemonFlags = daemonFlags.text;
+                        appWindow.startDaemon(persistentSettings.daemonFlags);
                     }
                 }
             }
@@ -446,21 +412,18 @@ Rectangle{
                 }
             }
 
-            RowLayout {
-                id: daemonFlagsRow
-
-                MoneroComponents.LineEditMulti {
-                    id: daemonFlags
-                    Layout.preferredWidth:  200
-                    Layout.fillWidth: true
-                    labelFontSize: 14 * scaleRatio
-                    fontSize: 15 * scaleRatio
-                    labelText: qsTr("Daemon startup flags") + translationManager.emptyString
-                    placeholderText: qsTr("(optional)") + translationManager.emptyString
-                    placeholderFontSize: 15 * scaleRatio
-                    text: appWindow.persistentSettings.daemonFlags
-                    addressValidation: false
-                }
+            MoneroComponents.LineEditMulti {
+                id: daemonFlags
+                Layout.fillWidth: true
+                labelFontSize: 14 * scaleRatio
+                fontSize: 15 * scaleRatio
+                wrapMode: Text.WrapAnywhere
+                labelText: qsTr("Daemon startup flags") + translationManager.emptyString
+                placeholderText: qsTr("(optional)") + translationManager.emptyString
+                placeholderFontSize: 15 * scaleRatio
+                text: persistentSettings.daemonFlags
+                addressValidation: false
+                onEditingFinished: persistentSettings.daemonFlags = daemonFlags.text;
             }
 
             RowLayout {
@@ -488,7 +451,7 @@ Rectangle{
                         daemonPortText: {
                             var node_split = persistentSettings.bootstrapNodeAddress.split(":");
                             if(node_split.length == 2){
-                                (node_split[1].trim() == "") ? "18081" : node_split[1];
+                                (node_split[1].trim() == "") ? appWindow.getDefaultDaemonRpcPort(persistentSettings.nettype) : node_split[1];
                             } else {
                                 return ""
                             }
