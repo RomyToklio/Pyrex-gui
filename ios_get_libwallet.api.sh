@@ -21,7 +21,7 @@ if [ -z $OPENSSL_ROOT_DIR ]; then
     OPENSSL_ROOT_DIR=${ROOT_DIR}/../openssl/1.0.2j
 fi
 if [ -z $INSTALL_PREFIX ]; then
-    INSTALL_PREFIX=${ROOT_DIR}/monero
+    INSTALL_PREFIX=${ROOT_DIR}/Pyrex
 fi
 
 echo "Building IOS armv7"
