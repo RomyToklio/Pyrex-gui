@@ -23,6 +23,7 @@ fi
 if [ -z $INSTALL_PREFIX ]; then
     INSTALL_PREFIX=${ROOT_DIR}/Pyrex
 fi
+echo "Openssl path"
 echo $OPENSSL_ROOT_DIR
 echo "Building IOS armv7"
 rm -r Pyrex/build > /dev/null
