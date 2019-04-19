@@ -31,7 +31,7 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.1
 
-import "../components"
+import "../components" as MoneroComponents
 import moneroComponents.Clipboard 1.0
 
 import "../js/TxUtils.js" as TxUtils
@@ -45,78 +45,72 @@ Rectangle {
     /* main layout */
     ColumnLayout {
         id: mainLayout
-        anchors.margins: 40 * scaleRatio
+        anchors.margins: (isMobile)? 17 * scaleRatio : 20 * scaleRatio
+        anchors.topMargin: 40 * scaleRatio
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.right: parent.right
-        anchors.bottom: parent.bottom
         spacing: 20 * scaleRatio
 
         // solo
         ColumnLayout {
             id: soloBox
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.top: parent.top
             spacing: 20 * scaleRatio
 
-            Label {
+            MoneroComponents.Label {
                 id: soloTitleLabel
                 fontSize: 24 * scaleRatio
                 text: qsTr("Prove Transaction") + translationManager.emptyString
             }
 
             Text {
+                Layout.fillWidth: true
                 text: qsTr("Generate a proof of your incoming/outgoing payment by supplying the transaction ID, the recipient address and an optional message. \n" +
                            "For the case of outgoing payments, you can get a 'Spend Proof' that proves the authorship of a transaction. In this case, you don't need to specify the recipient address.") + translationManager.emptyString
                 wrapMode: Text.Wrap
-                Layout.fillWidth: true
-                font.family: Style.fontRegular.name
+                font.family: MoneroComponents.Style.fontRegular.name
                 font.pixelSize: 14 * scaleRatio
-                color: Style.defaultFontColor
+                color: MoneroComponents.Style.defaultFontColor
             }
 
-            RowLayout {
-                LineEdit {
-                    labelText: qsTr("Transaction ID") + translationManager.emptyString
-                    id: getProofTxIdLine
-                    fontSize: 16 * scaleRatio
-                    placeholderText: qsTr("Paste tx ID") + translationManager.emptyString
-                    readOnly: false
-                    Layout.fillWidth: true
-                    copyButton: true
-                }
+            MoneroComponents.LineEdit {
+                id: getProofTxIdLine
+                Layout.fillWidth: true
+                labelFontSize: 14 * scaleRatio
+                labelText: qsTr("Transaction ID") + translationManager.emptyString
+                fontSize: 16 * scaleRatio
+                placeholderFontSize: 16 * scaleRatio
+                placeholderText: qsTr("Paste tx ID") + translationManager.emptyString
+                readOnly: false
+                copyButton: true
             }
 
-            RowLayout {
-                LineEdit {
-                    id: getProofAddressLine
-                    labelText: qsTr("Address") + translationManager.emptyString
-                    fontSize: 16 * scaleRatio
-                    placeholderText: qsTr("Recipient's wallet address") + translationManager.emptyString;
-                    readOnly: false
-                    Layout.fillWidth: true
-                    copyButton: true
-                }
+            MoneroComponents.LineEdit {
+                id: getProofAddressLine
+                Layout.fillWidth: true
+                labelFontSize: 14 * scaleRatio
+                labelText: qsTr("Address") + translationManager.emptyString
+                fontSize: 16 * scaleRatio
+                placeholderFontSize: 16 * scaleRatio
+                placeholderText: qsTr("Recipient's wallet address") + translationManager.emptyString;
+                readOnly: false
+                copyButton: true
             }
 
-            RowLayout {
-                LineEdit {
-                    id: getProofMessageLine
-                    fontSize: 16 * scaleRatio
-                    labelText: qsTr("Message") + translationManager.emptyString
-                    placeholderText: qsTr("Optional message against which the signature is signed") + translationManager.emptyString;
-                    readOnly: false
-                    width: mainLayout.editWidth
-                    Layout.fillWidth: true
-                    copyButton: true
-                }
+            MoneroComponents.LineEdit {
+                id: getProofMessageLine
+                Layout.fillWidth: true
+                fontSize: 16 * scaleRatio
+                labelFontSize: 14 * scaleRatio
+                labelText: qsTr("Message") + translationManager.emptyString
+                placeholderFontSize: 16 * scaleRatio
+                placeholderText: qsTr("Optional message against which the signature is signed") + translationManager.emptyString;
+                readOnly: false
+                copyButton: true
             }
 
-            StandardButton {
-                anchors.left: parent.left
-                anchors.topMargin: 17 * scaleRatio
-                width: 60 * scaleRatio
+            MoneroComponents.StandardButton {
+                Layout.topMargin: 16 * scaleRatio
                 small: true
                 text: qsTr("Generate") + translationManager.emptyString
                 enabled: TxUtils.checkTxID(getProofTxIdLine.text) && (getProofAddressLine.text.length == 0 || TxUtils.checkAddress(getProofAddressLine.text, appWindow.persistentSettings.nettype))
@@ -135,7 +129,7 @@ Rectangle {
                 anchors.bottomMargin: 3 * scaleRatio
             }
 
-            Label {
+            MoneroComponents.Label {
                 id: soloTitleLabel2
                 fontSize: 24 * scaleRatio
                 text: qsTr("Check Transaction") + translationManager.emptyString
@@ -146,67 +140,61 @@ Rectangle {
                            "For the case with Spend Proof, you don't need to specify the recipient address.") + translationManager.emptyString
                 wrapMode: Text.Wrap
                 Layout.fillWidth: true
-                font.family: Style.fontRegular.name
+                font.family: MoneroComponents.Style.fontRegular.name
                 font.pixelSize: 14 * scaleRatio
-                color: Style.defaultFontColor
+                color: MoneroComponents.Style.defaultFontColor
             }
 
-            RowLayout {
-                LineEdit {
-                    id: checkProofTxIdLine
-                    labelText: qsTr("Transaction ID") + translationManager.emptyString
-                    fontSize: 16 * scaleRatio
-                    placeholderText: qsTr("Paste tx ID") + translationManager.emptyString
-                    readOnly: false
-                    width: mainLayout.editWidth
-                    Layout.fillWidth: true
-                    copyButton: true
-                }
+            MoneroComponents.LineEdit {
+                id: checkProofTxIdLine
+                Layout.fillWidth: true
+                labelFontSize: 14 * scaleRatio
+                labelText: qsTr("Transaction ID") + translationManager.emptyString
+                fontSize: 16 * scaleRatio
+                placeholderFontSize: 16 * scaleRatio
+                placeholderText: qsTr("Paste tx ID") + translationManager.emptyString
+                readOnly: false
+                copyButton: true
             }
 
-            RowLayout {
-                LineEdit {
-                    id: checkProofAddressLine
-                    labelText: qsTr("Address") + translationManager.emptyString
-                    fontSize: 16 * scaleRatio
-                    placeholderText: qsTr("Recipient's wallet address") + translationManager.emptyString;
-                    readOnly: false
-                    width: mainLayout.editWidth
-                    Layout.fillWidth: true
-                    copyButton: true
-                }
+            MoneroComponents.LineEdit {
+                id: checkProofAddressLine
+                Layout.fillWidth: true
+                labelFontSize: 14 * scaleRatio
+                labelText: qsTr("Address") + translationManager.emptyString
+                fontSize: 16 * scaleRatio
+                placeholderFontSize: 16 * scaleRatio
+                placeholderText: qsTr("Recipient's wallet address") + translationManager.emptyString;
+                readOnly: false
+                copyButton: true
             }
 
-            RowLayout {
-                LineEdit {
-                    id: checkProofMessageLine
-                    fontSize: 16 * scaleRatio
-                    labelText: qsTr("Message") + translationManager.emptyString
-                    placeholderText: qsTr("Optional message against which the signature is signed") + translationManager.emptyString;
-                    readOnly: false
-                    width: mainLayout.editWidth
-                    Layout.fillWidth: true
-                    copyButton: true
-                }
+            MoneroComponents.LineEdit {
+                id: checkProofMessageLine
+                Layout.fillWidth: true
+                fontSize: 16 * scaleRatio
+                labelFontSize: 14 * scaleRatio
+                labelText: qsTr("Message") + translationManager.emptyString
+                placeholderFontSize: 16 * scaleRatio
+                placeholderText: qsTr("Optional message against which the signature is signed") + translationManager.emptyString;
+                readOnly: false
+                copyButton: true
             }
 
-            RowLayout {
-                LineEdit {
-                    id: checkProofSignatureLine
-                    fontSize: 16 * scaleRatio
-                    labelText: qsTr("Signature") + translationManager.emptyString
-                    placeholderText: qsTr("Paste tx proof") + translationManager.emptyString;
-                    readOnly: false
-                    width: mainLayout.editWidth
-                    Layout.fillWidth: true
-                    copyButton: true
-                }
+            MoneroComponents.LineEdit {
+                id: checkProofSignatureLine
+                Layout.fillWidth: true
+                fontSize: 16 * scaleRatio
+                labelFontSize: 14 * scaleRatio
+                labelText: qsTr("Signature") + translationManager.emptyString
+                placeholderFontSize: 16 * scaleRatio
+                placeholderText: qsTr("Paste tx proof") + translationManager.emptyString;
+                readOnly: false
+                copyButton: true
             }
 
-            StandardButton {
-                anchors.left: parent.left
-                anchors.topMargin: 17 * scaleRatio
-                width: 60
+            MoneroComponents.StandardButton {
+                Layout.topMargin: 16 * scaleRatio
                 small: true
                 text: qsTr("Check") + translationManager.emptyString
                 enabled: TxUtils.checkTxID(checkProofTxIdLine.text) && TxUtils.checkSignature(checkProofSignatureLine.text) && ((checkProofSignatureLine.text.indexOf("SpendProofV") === 0 && checkProofAddressLine.text.length == 0) || (checkProofSignatureLine.text.indexOf("SpendProofV") !== 0 && TxUtils.checkAddress(checkProofAddressLine.text, appWindow.persistentSettings.nettype)))
@@ -230,9 +218,9 @@ Rectangle {
                 text: qsTr("If a payment had several transactions then each must be checked and the results combined.") + translationManager.emptyString
                 wrapMode: Text.Wrap
                 Layout.fillWidth: true
-                font.family: Style.fontRegular.name
+                font.family: MoneroComponents.Style.fontRegular.name
                 font.pixelSize: 14 * scaleRatio
-                color: Style.defaultFontColor
+                color: MoneroComponents.Style.defaultFontColor
             }
         }
     }

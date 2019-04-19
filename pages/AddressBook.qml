@@ -28,66 +28,133 @@
 
 import QtQuick 2.0
 import QtQuick.Layouts 1.1
-import "../components"
+import QtQuick.Dialogs 1.2
+import "../components" as MoneroComponents
+import "../js/TxUtils.js" as TxUtils
 import moneroComponents.AddressBook 1.0
 import moneroComponents.AddressBookModel 1.0
+import moneroComponents.Clipboard 1.0
+import moneroComponents.NetworkType 1.0
 
-Rectangle {
+ColumnLayout {
     id: root
-    color: "transparent"
     property var model
+    property bool selectAndSend: false
+    Clipboard { id: clipboard }
 
     ColumnLayout {
-        id: columnLayout
-        anchors.margins: (isMobile)? 17 : 40
-        anchors.left: parent.left
-        anchors.top: parent.top
-        anchors.right: parent.right
+        Layout.margins: (isMobile ? 17 : 20) * scaleRatio
+        Layout.topMargin: 40 * scaleRatio
+        Layout.fillWidth: true
         spacing: 26 * scaleRatio
+        visible: !root.selectAndSend
 
-        RowLayout {
-            StandardButton {
-                id: qrfinderButton
-                text: qsTr("Qr Code") + translationManager.emptyString
-                visible : appWindow.qrScannerEnabled
-                enabled : visible
-                width: visible ? 60 * scaleRatio : 0
-                onClicked: {
-                    cameraUi.state = "Capture"
-                    cameraUi.qrcode_decoded.connect(updateFromQrCode)
+        MoneroComponents.LineEditMulti {
+            id: addressLine
+            Layout.fillWidth: true
+            fontBold: true
+            labelText: qsTr("Address") + translationManager.emptyString
+            placeholderText: {
+                switch (persistentSettings.nettype) {
+                    case NetworkType.MAINNET:
+                        return "4.. / 8.. / OpenAlias";
+                    case NetworkType.STAGENET:
+                        return "5.. / 7..";
+                    case NetworkType.TESTNET:
+                        return "9.. / B..";
+                    default:
+                        break;
                 }
             }
+            wrapMode: Text.WrapAnywhere
+            addressValidation: true
+            pasteButton: true
+            onPaste: function(clipboardText) {
+                const parsed = walletManager.parse_uri_to_object(clipboardText);
+                if (!parsed.error) {
+                    addressLine.text = parsed.address;
+                    setPaymentId(parsed.payment_id);
+                    setDescription(parsed.tx_description);
+                } else {
+                    addressLine.text = clipboardText;
+                }
+            }
+            inlineButton.icon: "../images/qr.png"
+            inlineButton.buttonColor: MoneroComponents.Style.orange
+            inlineButton.onClicked: {
+                cameraUi.state = "Capture"
+                cameraUi.qrcode_decoded.connect(updateFromQrCode)
+            }
+            inlineButtonVisible : appWindow.qrScannerEnabled && !addressLine.text
+        }
 
-            LineEdit {
-                Layout.fillWidth: true;
-                id: addressLine
-                labelText: qsTr("Address") + translationManager.emptyString
-                error: true;
-                placeholderText: qsTr("PYX...") + translationManager.emptyString
+        MoneroComponents.StandardButton {
+            id: resolveButton
+            text: qsTr("Resolve") + translationManager.emptyString
+            visible: TxUtils.isValidOpenAliasAddress(addressLine.text)
+            enabled : visible
+            onClicked: {
+                var result = walletManager.resolveOpenAlias(addressLine.text)
+                if (result) {
+                    var parts = result.split("|")
+                    if (parts.length === 2) {
+                        var address_ok = walletManager.addressValid(parts[1], appWindow.persistentSettings.nettype)
+                        if (parts[0] === "true") {
+                            if (address_ok) {
+                                // prepend openalias to description
+                                descriptionLine.text = descriptionLine.text ? addressLine.text + " " + descriptionLine.text : addressLine.text
+                                addressLine.text = parts[1]
+                            }
+                            else
+                                oa_message(qsTr("No valid address found at this OpenAlias address"))
+                        }
+                        else if (parts[0] === "false") {
+                              if (address_ok) {
+                                  addressLine.text = parts[1]
+                                  oa_message(qsTr("Address found, but the DNSSEC signatures could not be verified, so this address may be spoofed"))
+                              }
+                              else
+                              {
+                                  oa_message(qsTr("No valid address found at this OpenAlias address, but the DNSSEC signatures could not be verified, so this may be spoofed"))
+                              }
+                        }
+                        else {
+                            oa_message(qsTr("Internal error"))
+                        }
+                    }
+                    else {
+                        oa_message(qsTr("Internal error"))
+                    }
+                }
+                else {
+                    oa_message(qsTr("No address found"))
+                }
             }
         }
 
-        LineEdit {
+        MoneroComponents.LineEditMulti {
             id: paymentIdLine
-            Layout.fillWidth: true;
+            visible: appWindow.persistentSettings.showPid
+            Layout.fillWidth: true
             labelText: qsTr("Payment ID <font size='2'>(Optional)</font>") + translationManager.emptyString
             placeholderText: qsTr("Paste 64 hexadecimal characters") + translationManager.emptyString
+            wrapMode: Text.WrapAnywhere
 //            tipText: qsTr("<b>Payment ID</b><br/><br/>A unique user name used in<br/>the address book. It is not a<br/>transfer of information sent<br/>during the transfer")
 //                    + translationManager.emptyString
         }
 
-        LineEdit {
+        MoneroComponents.LineEditMulti {
             id: descriptionLine
-            Layout.fillWidth: true;
+            Layout.fillWidth: true
             labelText: qsTr("Description <font size='2'>(Optional)</font>") + translationManager.emptyString
             placeholderText: qsTr("Give this entry a name or description") + translationManager.emptyString
+            wrapMode: Text.WrapAnywhere
         }
-
 
         RowLayout {
             id: addButton
             Layout.bottomMargin: 17 * scaleRatio
-            StandardButton {
+            MoneroComponents.StandardButton {
                 text: qsTr("Add") + translationManager.emptyString
                 enabled: checkInformation(addressLine.text, paymentIdLine.text, appWindow.persistentSettings.nettype)
 
@@ -105,9 +172,7 @@ Rectangle {
                         informationPopup.onCloseCallback = null
                         informationPopup.open();
                     } else {
-                        addressLine.text = "";
-                        paymentIdLine.text = "";
-                        descriptionLine.text = "";
+                        clearFields();
                     }
                 }
             }
@@ -116,29 +181,27 @@ Rectangle {
 
     Rectangle {
         id: tableRect
-        anchors.top: columnLayout.bottom
-        anchors.leftMargin: (isMobile)? 17 : 40
-        anchors.rightMargin: (isMobile)? 17 : 40
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-        height: parent.height - addButton.y - addButton.height - 36 * scaleRatio
+        Layout.leftMargin: (isMobile ? 17 : 40) * scaleRatio
+        Layout.rightMargin: (isMobile ? 17 : 40) * scaleRatio
+        Layout.topMargin: (root.selectAndSend ? 40 : 0) * scaleRatio
+        Layout.fillHeight: true
+        Layout.fillWidth: true
         color: "transparent"
 
         Behavior on height {
             NumberAnimation { duration: 200; easing.type: Easing.InQuad }
         }
 
-        Scroll {
+        MoneroComponents.Scroll {
             id: flickableScroll
             anchors.right: table.right
-            anchors.rightMargin: -14
+            anchors.rightMargin: -14 * scaleRatio
             anchors.top: table.top
             anchors.bottom: table.bottom
             flickable: table
         }
 
-        AddressBookTable {
+        MoneroComponents.AddressBookTable {
             id: table
             anchors.left: parent.left
             anchors.right: parent.right
@@ -146,6 +209,7 @@ Rectangle {
             anchors.bottom: parent.bottom
             onContentYChanged: flickableScroll.flickableContentYChanged()
             model: root.model
+            selectAndSend: root.selectAndSend
         }
     }
 
@@ -154,7 +218,7 @@ Rectangle {
       payment_id = payment_id.trim()
 
       var address_ok = walletManager.addressValid(address, nettype)
-      var payment_id_ok = payment_id.length == 0 || walletManager.paymentIdValid(payment_id)
+      var payment_id_ok = payment_id.length === 0 || walletManager.paymentIdValid(payment_id)
       var ipid = walletManager.paymentIdFromAddress(address, nettype)
       if (ipid.length > 0 && payment_id.length > 0)
          payment_id_ok = false
@@ -163,6 +227,10 @@ Rectangle {
       paymentIdLine.error = !payment_id_ok
 
       return address_ok && payment_id_ok
+    }
+
+    function onPageClosed() {
+        root.selectAndSend = false;
     }
 
     function onPageCompleted() {
@@ -174,9 +242,41 @@ Rectangle {
         console.log("updateFromQrCode")
         addressLine.text = address
         paymentIdLine.text = payment_id
-        //amountLine.text = amount
         descriptionLine.text = recipient_name + " " + tx_description
         cameraUi.qrcode_decoded.disconnect(updateFromQrCode)
     }
 
+    function setDescription(value) {
+        descriptionLine.text = value;
+    }
+
+    function setPaymentId(value) {
+        paymentIdLine.text = value;
+    }
+
+    function clearFields() {
+        addressLine.text = "";
+        paymentIdLine.text = "";
+        descriptionLine.text = "";
+    }
+
+    function oa_message(text) {
+      oaPopup.title = qsTr("OpenAlias error") + translationManager.emptyString
+      oaPopup.text = text
+      oaPopup.icon = StandardIcon.Information
+      oaPopup.onCloseCallback = null
+      oaPopup.open()
+    }
+
+    MoneroComponents.StandardDialog {
+        // dynamically change onclose handler
+        property var onCloseCallback
+        id: oaPopup
+        cancelVisible: false
+        onAccepted:  {
+            if (onCloseCallback) {
+                onCloseCallback()
+            }
+        }
+    }
 }

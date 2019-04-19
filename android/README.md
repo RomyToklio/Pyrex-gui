@@ -10,7 +10,7 @@ Copyright (c) 2014-2018, The Monero Project
 
 # Base environnement
 
-        cd monero/utils/build_scripts
+        cd Pyrex/utils/build_scripts
         docker build -f android32.Dockerfile -t pyrexcoin-android .
         cd ..
 

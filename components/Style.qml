@@ -9,9 +9,14 @@ QtObject {
     property QtObject fontRegular: FontLoader { id: _fontRegular; source: "qrc:/fonts/Roboto-Regular.ttf"; }
 
     property string grey: "#404040"
+    property string orange: "#FF6C3C"
+    property string white: "#FFFFFF"
+    property string green: "#2EB358"
+    property string moneroGrey: "#4C4C4C"
 
     property string defaultFontColor: "white"
     property string dimmedFontColor: "#BBBBBB"
+    property string lightGreyFontColor: "#DFDFDF"
     property string errorColor: "#FA6800"
     property string inputBoxBackground: "black"
     property string inputBoxBackgroundError: "#FFDDDD"

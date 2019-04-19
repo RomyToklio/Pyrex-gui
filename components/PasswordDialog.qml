@@ -40,6 +40,7 @@ Item {
     visible: false
     z: parent.z + 2
 
+    property bool isHidden: true
     property alias password: passwordInput.text
     property string walletName
     property string errorText
@@ -60,6 +61,8 @@ Item {
         root.visible = true;
         passwordInput.forceActiveFocus();
         passwordInput.text = ""
+        appWindow.hideBalanceForced = true;
+        appWindow.updateBalance();
     }
 
     function showError(errorText) {
@@ -72,6 +75,8 @@ Item {
         middlePanel.enabled = true
         titleBar.enabled = true
         root.visible = false;
+        appWindow.hideBalanceForced = false;
+        appWindow.updateBalance();
         closeCallback();
     }
 
@@ -90,7 +95,6 @@ Item {
 
             Label {
                 text: root.walletName.length > 0 ? qsTr("Please enter wallet password for: ") + root.walletName : qsTr("Please enter wallet password")
-                anchors.left: parent.left
                 Layout.fillWidth: true
 
                 font.pixelSize: 16 * scaleRatio
@@ -103,7 +107,6 @@ Item {
                 text: root.errorText
                 visible: root.errorText
 
-                anchors.left: parent.left
                 color: MoneroComponents.Style.errorColor
                 font.pixelSize: 16 * scaleRatio
                 font.family: MoneroComponents.Style.fontLight.name                
@@ -115,7 +118,6 @@ Item {
                 id : passwordInput
                 Layout.topMargin: 6
                 Layout.fillWidth: true
-                anchors.left: parent.left
                 horizontalAlignment: TextInput.AlignLeft
                 verticalAlignment: TextInput.AlignVCenter
                 font.family: MoneroComponents.Style.fontLight.name
@@ -136,12 +138,33 @@ Item {
                     color: "black"
 
                     Image {
-                        width: 12
-                        height: 16
-                        source: "../images/lockIcon.png"
+                        width: 26 * scaleRatio
+                        height: 26 * scaleRatio
+                        opacity: 0.7
+                        fillMode: Image.PreserveAspectFit
+                        source: isHidden ? "../images/eyeShow.png" : "../images/eyeHide.png"
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.right: parent.right
                         anchors.rightMargin: 20
+                        MouseArea {
+                            anchors.fill: parent
+                            cursorShape: Qt.PointingHandCursor
+                            hoverEnabled: true
+                            onClicked: {
+                                passwordInput.echoMode = isHidden ? TextInput.Normal : TextInput.Password;
+                                isHidden = !isHidden;
+                            }
+                            onEntered: {
+                                parent.opacity = 0.9
+                                parent.width = 28 * scaleRatio
+                                parent.height = 28 * scaleRatio
+                            }
+                            onExited: {
+                                parent.opacity = 0.7
+                                parent.width = 26 * scaleRatio
+                                parent.height = 26 * scaleRatio
+                            }
+                        }
                     }
                 }
 
@@ -168,7 +191,7 @@ Item {
                 MoneroComponents.StandardButton {
                     id: cancelButton
                     small: true
-                    text: qsTr("Cancel") + translationManager.emptyString
+                    text: root.walletName.length > 0 ? qsTr("Change wallet") + translationManager.emptyString : qsTr("Cancel") + translationManager.emptyString
                     KeyNavigation.tab: passwordInput
                     onClicked: {
                         root.close()

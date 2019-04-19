@@ -12,6 +12,7 @@ function destinationsToAddress(destinations){
 }
 
 function addressTruncate(address, range){
+    if(typeof(address) === "undefined") return;
     if(typeof(range) === "undefined") range = 8;
     return address.substring(0, range) + "..." + address.substring(address.length-range);
 }
@@ -56,3 +57,22 @@ function checkSignature(signature) {
     return false;
 }
 
+function isValidOpenAliasAddress(address) {
+    address = address.trim()
+    var dot = address.indexOf('.')
+    if (dot < 0)
+        return false
+    // we can get an awful lot of valid domains, including non ASCII chars... accept anything
+    return true
+}
+
+function makeQRCodeString(addr, amount) {
+    var XMR_URI_SCHEME = "pyrexcoin:"
+    var XMR_AMOUNT = "tx_amount"
+    var qrCodeString =""
+    qrCodeString += (XMR_URI_SCHEME + addr)
+    if (amount !== undefined && amount !== ""){
+      qrCodeString += ("?" + XMR_AMOUNT + "=" + amount)
+    }
+    return qrCodeString
+}
