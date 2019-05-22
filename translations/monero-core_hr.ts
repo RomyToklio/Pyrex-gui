@@ -2552,9 +2552,14 @@ U slučaju &quot;dokaza potrošnje&quot;, adresa primatelja ne mora se navesti.<
         <source>Open wallet</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../wizard/WizardCreateDevice1.qml" line="191"/>
+        <source>Create wallet</source>
+        <translation type="unfinished">Kreiraj novčanik</translation>
+    </message>
 </context>
 <context>
-    <name>WizardDaemonSettings</name>
+    <name>WizardCreateWallet1</name>
     <message>
         <location filename="../wizard/WizardDaemonSettings.qml" line="51"/>
         <source>Start a node automatically in background (recommended)</source>
@@ -2598,6 +2603,9 @@ U slučaju &quot;dokaza potrošnje&quot;, adresa primatelja ne mora se navesti.<
         <source>Welcome to Pyrexcoin.</source>
         <translation type="unfinished"></translation>
     </message>
+</context>
+<context>
+    <name>WizardCreateWallet3</name>
     <message>
         <location filename="../wizard/WizardHome.qml" line="65"/>
         <source>Create a new wallet</source>
@@ -2608,6 +2616,9 @@ U slučaju &quot;dokaza potrošnje&quot;, adresa primatelja ne mora se navesti.<
         <source>Choose this option if this is your first time using Pyrexcoin.</source>
         <translation type="unfinished"></translation>
     </message>
+</context>
+<context>
+    <name>WizardCreateWallet4</name>
     <message>
         <location filename="../wizard/WizardHome.qml" line="86"/>
         <source>Create a new wallet from hardware</source>
@@ -2781,6 +2792,9 @@ U slučaju &quot;dokaza potrošnje&quot;, adresa primatelja ne mora se navesti.<
         <source>Advanced mode</source>
         <translation type="unfinished"></translation>
     </message>
+</context>
+<context>
+    <name>WizardModeSelection</name>
     <message>
         <location filename="../wizard/WizardModeSelection.qml" line="125"/>
         <source>Includes extra features like mining and message verification. The blockchain is downloaded to your computer.</source>
@@ -2845,6 +2859,9 @@ U slučaju &quot;dokaza potrošnje&quot;, adresa primatelja ne mora se navesti.<
         <source>Restore wallet</source>
         <translation type="unfinished">Obnovi novčanik</translation>
     </message>
+</context>
+<context>
+    <name>WizardOpenWallet1</name>
     <message>
         <location filename="../wizard/WizardRestoreWallet1.qml" line="102"/>
         <source>Restore wallet from keys or mnemonic seed.</source>

@@ -2811,6 +2811,9 @@ For the case of outgoing payments, you can get a &apos;Spend Proof&apos; that pr
         <source>Open a wallet from file</source>
         <translation type="unfinished">Åben en tegnebog fra fil</translation>
     </message>
+</context>
+<context>
+    <name>WizardOpenWallet1</name>
     <message>
         <location filename="../wizard/WizardOpenWallet1.qml" line="74"/>
         <source>Import an existing .keys wallet file from your computer.</source>

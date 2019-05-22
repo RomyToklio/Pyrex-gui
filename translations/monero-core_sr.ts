@@ -2695,6 +2695,9 @@ U slučaju sa Dokazom Troška, ne morate navesti adresu primaoca.</translation>
         <source>About the bootstrap mode</source>
         <translation type="unfinished"></translation>
     </message>
+</context>
+<context>
+    <name>WizardModeBootstrap</name>
     <message>
         <location filename="../wizard/WizardModeBootstrap.qml" line="70"/>
         <source>This mode will use a remote node whilst also syncing the blockchain. This is different from the first menu option (Simple mode), since it will only use the remote node until the blockchain is fully synced locally. It is a reasonable tradeoff for most people who care about privacy but also want the convenience of an automatic fallback option.</source>

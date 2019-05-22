@@ -995,8 +995,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../pages/settings/Navbar.qml" line="158"/>
-        <source>Layout</source>
+        <location filename="../pages/merchant/MerchantTrackingList.qml" line="103"/>
+        <source>hide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1757,9 +1757,6 @@ You can change the password in the wallet settings.</source>
         <source>Segregation height:</source>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>Sign</name>
     <message>
         <location filename="../pages/Sign.qml" line="61"/>
         <source>Good signature</source>

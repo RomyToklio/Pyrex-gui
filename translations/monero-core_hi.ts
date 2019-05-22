@@ -2031,9 +2031,9 @@ You can change the password in the wallet settings.</source>
         <translation>लेनदेन प्राथमिकता</translation>
     </message>
     <message>
-        <location filename="../pages/Transfer.qml" line="154"/>
-        <source></source>
-        <translation></translation>
+        <location filename="../pages/Transfer.qml" line="326"/>
+        <source>64 hexadecimal characters</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../pages/Transfer.qml" line="277"/>

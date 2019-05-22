@@ -67,7 +67,7 @@ Rectangle {
                 Layout.fillWidth: true
 
                 Text {
-                    text: qsTr("This mode is ideal for managing small amounts of MonPyrexcoinero. You have access to basic features for making and managing transactions. It will automatically connect to the Pyrexcoin network so you can start using Pyrexcoin immediately.") + translationManager.emptyString
+                    text: qsTr("This mode is ideal for managing small amounts of Pyrexcoin. You have access to basic features for making and managing transactions. It will automatically connect to the Pyrexcoin network so you can start using Pyrexcoin immediately.") + translationManager.emptyString
                     wrapMode: Text.Wrap
                     Layout.topMargin: 14 * scaleRatio
                     Layout.fillWidth: true
