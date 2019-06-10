@@ -363,7 +363,6 @@ CONFIG(release, debug|release) {
     DESTDIR = release/bin
     LANGUPD_OPTIONS = -locations relative -no-ui-lines
     LANGREL_OPTIONS = -compress -nounfinished -removeidentical
-
 } else {
     DESTDIR = debug/bin
     LANGUPD_OPTIONS =

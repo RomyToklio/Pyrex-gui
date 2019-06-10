@@ -11,3 +11,4 @@ moc_*
 *.xcodeproj
 pyrexcoin-wallet-gui_plugin_import.cpp
 pyrexcoin-wallet-gui_qml_plugin_import.cpp
+.vscode

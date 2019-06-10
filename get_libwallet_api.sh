@@ -20,7 +20,9 @@ git -C $MONERO_DIR fetch
 git -C $MONERO_DIR checkout origin/release-v0.13
 
 # get Pyrex core tag
+pushd $MONERO_DIR
 get_tag
+popd
 # create local Pyrex branch
 git -C $MONERO_DIR checkout -B $VERSIONTAG
 
